@@ -1,15 +1,21 @@
-# Smartadmin - SQL Server Samples Repository
-Database SQL SERVER 2014 SmartaDMIN
+# Smartadmin - .Net MVC & SQL Server Repository
+
+This repository contains the principles and definition of the SmartAdmin.com.br
+
+SmartAdmin solves problem for manager DEAL, CUSTOMER with PIPELINE for companies
+this platform use .NET MVC CORE 1.1 and SQL SERVER 2014 Express
+
+# Build With 
+* .Visual Studio 2017
+* .NET Core 1.1
+* .SQL Server Express 2014
+
+## How to Engage, Contribute and Provide Feedback
+
+You are also encouraged to start a discussion by filing an issue.
 
 
-This GitHub repository contains code samples that demonstrate how to use Microsoft's SQL products including SQL Server, 
-Each sample includes a README file that explains how to run and use the sample.
+## Learning More
 
-This project show/manage DEAL, CUSTOMER and PIPELINE for new business
-
-# Tecuse
-I Use 
-.Net MVC Core 1.1
-SQL SERVER 2014 Express Edition
-
-
+For more information, contact me, out the [JOSELUIZ.NET](joseluiz.net). It should answer any questions 
+you have not covered by the versions documentation.
