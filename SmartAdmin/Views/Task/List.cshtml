@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Smart.Core.Domain.Tasks.Task>
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+
+<div id="content">
+    <div class="well well-light">
+        <h4 class="txt-color-teal">@Localizer["Task"]</h4>
+        <p class="note">@Localizer["Registros Localizados:"] <small class="text-danger">(@Model.Count())</small> </p>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" method="post">
+                    @*<div class="input-group input-group">
+                            <div class="input-group-btn">
+                                <a asp-action="Add" class="btn btn-success">@Localizer["Adicionar Novo"]</a>
+                            </div>
+                            <input class="form-control input" placeholder="Search..." id="search" name="search" type="text" value="@ViewData["search"]">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fa fa-fw fa-search "></i>
+                                </button>
+                            </div>
+                        </div>*@
+
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a asp-action="Add" class="btn btn-default">@Localizer["Adicionar Novo"]</a>
+                        <button type="submit" asp-route-today="false" asp-route-OverDue="false" asp-route-Tomorrow="false" asp-route-ThisWeek="false" class="btn btn-@ViewData["all"]">A Fazer</button>
+                        <button type="submit" asp-route-today="true" class="btn btn-@ViewData["today"]">Hoje</button>
+                        <button type="submit" asp-route-OverDue="true" class="btn btn-@ViewData["OverDue"]">Atrasados</button>
+                        <button type="submit" asp-route-Tomorrow="true" class="btn btn-@ViewData["Tomorrow"]">Amanhã</button>
+                        <button type="submit" asp-route-ThisWeek="true" class="btn btn-@ViewData["ThisWeek"]">Neta Semana</button>
+                    </div>
+
+                </form>
+
+
+                @*<form class="form-horizontal" method="get">
+                        <div class="input-group input-group-lg">
+                            <div class="input-group-btn">
+                                <a asp-action="Add" class="btn btn-success">@Localizer["Adicionar Novo"]</a>
+                            </div>
+                            <input class="form-control input-lg" placeholder="Search..." id="search" name="search" type="text" value="@ViewData["search"]">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fa fa-fw fa-search fa-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>*@
+                <hr />
+
+
+            </div>
+        </div>
+        <div class="row padding-top-15">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="resultTable" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th data-class="expand">@Localizer["TaskId"]</th>
+                                <th data-hide="phone"> @Localizer["Assunto"]</th>
+                                <th data-hide="phone"> @Localizer["Deal"]</th>
+                                <th data-hide="phone"> @Localizer["Contact"]</th>
+                                <th data-hide="phone"> @Localizer["Email"]</th>
+                                <th data-hide="phone"> @Localizer["Fone"]</th>
+                                <th data-hide="phone"> @Localizer["Company"]</th>
+                                <th style="width:100px">Concluída</th>
+                                <th style="width:100px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.TaskId">
+                                    <td>
+                                        @item.TaskGroup.Name
+                                    </td>
+                                    <td>
+                                        @item.Name
+                                    </td>
+                                    <td>
+                                        @( item.Deal != null ? item.Deal.Name : "")
+                                    </td>
+                                    <td>
+                                        @( item.Contact != null ? item.Contact.FirstName : "" )
+                                    </td>
+                                    <td>
+                                        @( item.Contact != null ? (string.IsNullOrEmpty(item.Contact.Email) ? "" : item.Contact.Email) : "" )
+                                    </td>
+                                    <td>
+                                        @( item.Contact != null ? (string.IsNullOrEmpty(item.Contact.Phone) ? "" : item.Contact.Phone) : "" )
+                                    </td>
+                                    <td>
+                                        @( item.Company != null ? item.Company.FirstName : "" )
+                                    </td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input name="checkbox" type="checkbox" data-id="@item.TaskId" data-done="true" onclick="MarDone(this)">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.TaskId" class="btn btn-labeled bg-color-blue txt-color-white"> <span class="btn-label"><i class="fa fa-edit"></i></span> @Localizer["Editar"] </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>tableSetting.tableInit("resultTable", 50); </script>
+
+    <script>
+        function MarDone(e) {
+            var Linhaid = $(e).attr("data-id");
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                url: "/Task/MarkDone",
+                data: { id: Linhaid, Done: $(e).attr("data-done") },
+                success: function (response) {
+                    $('#' + Linhaid).fadeOut();
+                }
+            });
+
+
+        }
+
+
+    </script>
+}

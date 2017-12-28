@@ -1,0 +1,77 @@
+﻿@using SmartAdmin.Models.AccountViewModels
+@model RegisterViewModel
+
+
+
+<div class="well well-light">
+    <h4 class="txt-color-teal">@Localizer["User"]</h4>
+    <p class="note">@Localizer["Usuários do sistema"]</p>
+    <form asp-action="Register" method="post" asp-antiforgery="true" class="form-horizontal">
+        <input id="AvatarImage" name="AvatarImage" type="hidden" value="iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAElBMVEXR0dGqqqrCwsKysrK5ubnKysqGpJ8RAAAAtUlEQVQ4y72TMQ7CMAxFTaAH&#x2B;CnsKRI7QepOBvZWgvtfBaESSv1jKRKob32K/W238iOP40lKuATAC9NEvLiy6TBxoSdvwa&#x2B;2WVCrER&#x2B;USbMJSxNhNcLMeW3D2UwTzEkHWnXG3FsrtdVg760qdW22nXltSRSNyolmVIPyZ&#x2B;XJNOo6HGEQo9xeLOP/ZDZmH9t0VmqHiZ5WkNThWKBdKBfxxa1wUP3n34GycmD6vH4m5CbEIc/OyBPDUSvwZuB80QAAAABJRU5ErkJggg==" />
+        
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <fieldset>
+
+
+            <div class="form-group">
+                <div class="col-sm-12 col-md-4">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" placeholder="@Localizer["FirstName"]" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" placeholder="@Localizer["Email"]" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-12 col-md-4">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" placeholder="@Localizer["Password"]" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" placeholder="@Localizer["ConfirmPassword"]" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            </fieldset>
+
+        <div class="form-actions text-align-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="demo-btns">
+                        <li class="add">
+                            <button asp-route-continueAdd="false" type="submit" class="btn btn-labeled bg-color-blue txt-color-white">
+                                <span class="btn-label"><i class="fa fa-save"></i></span>@Localizer["Salvar"]
+                            </button>
+                        </li>
+                        <li class="addContinue">
+                            <button asp-route-continueAdd="true" type="submit" class="btn btn-labeled btn-default">
+                                <span class="btn-label"><i class="fa fa-refresh"></i></span>@Localizer["Salvar e Novo"]
+                            </button>
+                        </li>
+                        <li>
+                            <a asp-action="List" asp-controller="Manage" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>@Localizer["Voltar"] </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }*@
+    <script src="~/jsView/userSetting.js"></script>
+
+}
+
+

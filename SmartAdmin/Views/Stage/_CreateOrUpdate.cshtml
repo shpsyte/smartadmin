@@ -1,0 +1,24 @@
+﻿@model Smart.Core.Domain.Flow.Stage
+
+@{ Layout = null; }
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(a => a.StageId)
+@Html.HiddenFor(a => a.PipelineId)
+@Html.HiddenFor(a => a.BusinessEntityId)
+@Html.HiddenFor(a => a.CreateDate)
+@Html.HiddenFor(a => a.OrderStage)
+@Html.HiddenFor(a => a.ModifiedDate)
+@Html.HiddenFor(a => a.rowguid)
+@Html.HiddenFor(a => a.Active)
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<fieldset>
+    <div class="form-group">
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="Name" class="label">@Localizer["Nome"]</label>
+            <input asp-for="Name" placeholder="@Localizer["Nome"]" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+</fieldset>

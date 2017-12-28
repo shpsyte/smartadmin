@@ -1,0 +1,38 @@
+@model Smart.Core.Domain.Addresss.Territory
+
+
+   @{ Layout = null; }
+    @Html.HiddenFor(a => a.TerritoryId)
+    @Html.HiddenFor(a => a.CreateDate)
+    @Html.HiddenFor(a => a.ModifiedDate)
+    @Html.HiddenFor(a => a.BusinessEntityId)
+    @Html.HiddenFor(a => a.Rowguid)
+<fieldset>
+        <div class="form-group">
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" placeholder="@Localizer["Name"]" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="MiddleName"></label>
+                <input asp-for="MiddleName" placeholder="@Localizer["MiddleName"]" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="CountryRegionCode"></label>
+                <input asp-for="CountryRegionCode" placeholder="@Localizer["CountryRegionCode"]" class="form-control" />
+                <span asp-validation-for="CountryRegionCode" class="text-danger"></span>
+            </div>
+    
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="SpecialCodeRegion"></label>
+                <input asp-for="SpecialCodeRegion" placeholder="@Localizer["SpecialCodeRegion"]" class="form-control" />
+                <span asp-validation-for="SpecialCodeRegion" class="text-danger"></span>
+            </div>
+        </div>
+      
+</fieldset>

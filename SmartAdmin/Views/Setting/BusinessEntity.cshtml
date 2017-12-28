@@ -1,0 +1,83 @@
+﻿@model Smart.Core.Domain.Business.BusinessEntityConfig
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="well well-light">
+        <h4 class="txt-color-teal">@Localizer["Configuração do Sistema"]</h4>
+        <p class="note">@Localizer["Última Alteração:"] @Model.ModifiedDate</p>
+        <hr />
+          <form asp-action="BusinessEntity" method="post" class="form-horizontal">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(a => a.BusinessEntityId)
+            @Html.HiddenFor(a => a.CreateDate)
+            @Html.HiddenFor(a => a.rowguid)
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-6">
+                        <label asp-for="BusinessEntityId">@Localizer["ID"]</label>
+                        <span class="form-control" disabled="disabled">@Model.BusinessEntityId</span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>@Localizer["Configurações de Email"]</legend>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-4">
+                            <label asp-for="Name">@Localizer["Nome"]</label>
+                            <input asp-for="Name" placeholder="@Localizer["Nome"]" class="form-control">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label asp-for="Email" class="control-label">@Localizer["Email"]</label>
+                        <input asp-for="Email" placeholder="@Localizer["Email"]" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label asp-for="Password" class="control-label">@Localizer["Password"]</label>
+                        <input asp-for="Password" placeholder="@Localizer["Password"]" class="form-control">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-6">
+                        <label asp-for="Pop" class="control-label">@Localizer["Endereço Pop"]</label>
+                        <input asp-for="Pop" placeholder="@Localizer["Endereço Pop"]" class="form-control">
+                        <span asp-validation-for="Pop" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <label asp-for="PopPort" class="control-label">@Localizer["Porta Pop"]</label>
+                        <input asp-for="PopPort" placeholder="@Localizer["Porta Pop"]" class="form-control">
+                        <span asp-validation-for="PopPort" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-6">
+                        <label asp-for="Smtp" class="control-label">@Localizer["Endereço Smtp"]</label>
+                        <input asp-for="Smtp" placeholder="@Localizer["Endereço Smtp"]" class="form-control">
+                        <span asp-validation-for="Smtp" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label asp-for="SmtpPort" class="contorl-label">@Localizer["Porta Smtp"]</label>
+                        <input asp-for="SmtpPort" placeholder="@Localizer["Porta Smtp"]" class="form-control">
+                        <span asp-validation-for="SmtpPort" class="text-danger"></span>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-actions text-align-left">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa fa-save"></i>
+                            @Localizer["Atualizar"]
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>

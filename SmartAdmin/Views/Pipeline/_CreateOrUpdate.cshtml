@@ -1,0 +1,35 @@
+﻿@using Smart.Core.Domain.Flow
+@model Pipeline
+
+@{ Layout = null; }
+
+@Html.HiddenFor(a => a.PipelineId)
+@Html.HiddenFor(a => a.BusinessEntityId)
+@Html.HiddenFor(a => a.CreateDate)
+@Html.HiddenFor(a => a.ModifiedDate)
+@Html.HiddenFor(a => a.rowguid)
+@Html.HiddenFor(a => a.UserSettingId)
+
+
+<fieldset>
+    <div class="form-group">
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="Name">@Localizer["Nome"]</label>
+            <input asp-for="Name" placeholder="@Localizer["Nome"]" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+      
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 col-md-4">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" class="checkbox style-0" asp-for="Active" />
+                    <span><label asp-for="Active">@Localizer["Ativo"]</label></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</fieldset>
+

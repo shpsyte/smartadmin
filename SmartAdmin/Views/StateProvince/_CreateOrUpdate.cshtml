@@ -1,0 +1,51 @@
+@model Smart.Core.Domain.Addresss.StateProvince
+
+
+@{ Layout = null; }
+@Html.HiddenFor(a => a.StateProvinceId)
+@Html.HiddenFor(a => a.CreateDate)
+@Html.HiddenFor(a => a.ModifiedDate)
+@Html.HiddenFor(a => a.BusinessEntityId)
+@Html.HiddenFor(a => a.Rowguid)
+<fieldset>
+    <div class="form-group">
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" placeholder="@Localizer["Name"]" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="StateProvinceCode"></label>
+            <input asp-for="StateProvinceCode" placeholder="@Localizer["StateProvinceCode"]" class="form-control" />
+            <span asp-validation-for="StateProvinceCode" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="CountryRegionCode"></label>
+            <input asp-for="CountryRegionCode" placeholder="@Localizer["CountryRegionCode"]" class="form-control" />
+            <span asp-validation-for="CountryRegionCode" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 col-md-6">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="IsOnlyStateProvinceFlag" type="checkbox" class="checkbox style-0" />
+                    <span><label asp-for="IsOnlyStateProvinceFlag"></label></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-6">
+            <label asp-for="TerritoryId"></label>
+            <select asp-for="TerritoryId" class="form-control" asp-items="ViewBag.TerritoryId"></select>
+            <span asp-validation-for="TerritoryId" class="text-danger"></span>
+        </div>
+    </div>
+
+</fieldset>

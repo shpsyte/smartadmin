@@ -1,0 +1,206 @@
+﻿@using SmartAdmin.Models.AccountViewModels
+@using SmartAdmin.Models.ManageViewModels
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName }).ToList();
+}
+
+@model LoginViewModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+    ViewData["Title"] = "Log in";
+}
+
+<style>
+    #extr-page #header {
+        background: #2c3742 !important;
+    }
+</style>
+
+
+@section topright{
+
+    <ul class="header-dropdown-list">
+        <li>
+            <form id="selectLanguage" asp-controller="Home"
+                  asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+                  method="post" class="smart-form padding-10" role="form">
+
+                <select name="culture" class="form-control"
+                        onchange="this.form.submit();"
+                        asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+            </form>
+        </li>
+    </ul>
+
+}
+
+
+<div id="content" class="container">
+    <div class="row no-padding">
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form asp-controller="Account" asp-action="Login" id="login-form" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="smart-form client-form">
+                    @Html.AntiForgeryToken()
+                    <header>
+                        <h4>@Localizer["Use sua conta  para entrar"]</h4>
+                    </header>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <fieldset>
+
+                        <section>
+                            <label asp-for="Email">E-mail</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> @Localizer["Entre com seu E-mail"] </b>
+                            </label>
+                        </section>
+                        <section>
+                            <label asp-for="Password">Password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> @Localizer["Entre com sua senha"] </b>
+                            </label>
+                            <div class="note">
+                                <a asp-action="ForgotPassword"><i class="fa fa-frown-o"></i> @Localizer["Esqueçeu sua senha ?"]  </a>
+                            </div>
+                        </section>
+
+                        <section>
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="RememberMe" value="true" checked="checked" />
+                                <input type="hidden" name="rememberMe" value="false" />
+                                <i></i>@Localizer["Lembrar-me"]
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="btn btn-primary">
+                            @Localizer["Entrar"]
+                        </button>
+                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="btn btn-success">@Localizer["Ou crie uma nova conta"]</a>
+                    </footer>
+                </form>
+            </div>
+            @{ await Html.RenderPartialAsync("_SocialMedia"); }
+        </div>
+
+        @{ await Html.RenderPartialAsync("_LoginText"); }
+    </div>
+
+
+
+
+    @*<div class="row well well-lg well-clean text-align-center">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Localizer["Dê vida aos seus Processos de Negócio. Automatize!"]</h1>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-4">
+                <img class="img-responsives" src="~/img/cliques.png" width="150" height="138" />
+
+                <p class="lead">@Localizer["Crie Pipeline em poucos cliques."]</p>
+            </div>
+            <div class="col-md-4">
+                <img class="img-responsives" src="~/img/step2.png" width="150" height="138" />
+                <p class="lead">@Localizer["Defina suas etapas e regras."]</p>
+            </div>
+            <div class="col-md-4">
+                <img class="img-responsives" src="~/img/step3.png" width="150" height="138" />
+                <p class="lead">@Localizer["Gerencie de qualquer lugar."]</p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-responsive" src="~/img/Colaboracao-processos-negocio.png" />
+
+            </div>
+            <div class="col-md-8 padding-10">
+                <h1><b>@Localizer["Como você divulga os seus processos?"]</b></h1>
+                <br />
+                <br />
+                <p class="lead">
+                    @Localizer["A adoção do nosso aplicativo permite a colaboração entre pessoas que <i>trabalham em processos</i>, além do feedback e a contribuição para <i>melhorias e finalização com êxito</i> da demanda."]
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="row text-align-center">
+        <h1><b>@Localizer["Confira alguns exemplos de processos:"]</b></h1>
+        <img src="~/img/build.png" />
+        <br />
+        <div class="col-md-3">
+            <p class="lead txt-color-green">@Localizer["Fluxo de integração de empregados!"]</p>
+            <p class="text-justify">@Localizer["Faça seus funcionários se sentirem bem desde o primeiro dia de trabalho. Este fluxo inclui todas as providências anteriores a sua chegada e os passos básicos para sua integração na equipe"]</p>
+        </div>
+        <div class="col-md-3">
+            <p class="lead txt-color-green">@Localizer["Fluxo cadastro de novos produtos!"]</p>
+            <p class="text-justify">
+                @Localizer["Permita sua equipe identificar a etapa do lançamento de um novo produto, desde seu desenvolvimento a ao lançamento. Garanta que todas as regras sejam cumpridas de forma fácil e ágil."]
+
+            </p>
+
+        </div>
+        <div class="col-md-3">
+            <p class="lead txt-color-green">@Localizer["Fluxo para solicitação de viagens!"]</p>
+            <p class="text-justify">
+                @Localizer["Nada melhor que poder contar com um processo padronizado e permitir que os colaboradores tenham tranqüilidade e confiança. Este processo começa com o pedido seguido de aprovação, agendamento de passagens e hotéis, e validação de despesas."]
+            </p>
+
+        </div>
+        <div class="col-md-3">
+            <p class="lead txt-color-green">@Localizer["Fluxo para conquistar novas vendas!"]</p>
+            <p class="text-justify">
+                @Localizer["Manter a equipe de vendas integrada com novos leads é fundamental para a conquista de novos clientes. Neste fluxo você pode definir todas as etapas necessárias para que a venda se concretize."]
+            </p>
+
+
+        </div>
+
+
+    </div>
+    <hr />
+
+    <div class="row text-align-center">
+
+        <br />
+        <img class="img-responsive" src="~/img/Pipeline1.JPG" />
+    </div>
+
+
+    <div class="row well well-lg well-clean text-align-center bg-color-blue txt-color-white">
+        <h1>@Localizer["Comece a modelar processos com muito mais satisfação, agilidade e clareza."]</h1>
+        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="btn btn-lg btn-warning">@Localizer["Dê uma espiada! Crie sua conta"]</a>
+       
+    </div>
+
+
+    <div class="row">
+        <div class="well well-lg well-clean text-align-center">
+            <h1 class="font-400">@Localizer["SmartAdmin"]</h1>
+            <p class="lead">suporte@smartadmin.com.br</p>
+            <p>@Localizer["Este aplicativo está em versão beta, isso significa que estamos trabalhando em suas funções e que novas funcionalidades estão sendo implementadas"]</p>
+
+        </div>
+
+
+    </div>*@
+
+  
+</div>

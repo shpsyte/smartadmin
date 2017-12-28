@@ -1,0 +1,58 @@
+﻿@using SmartAdmin.Helpers
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
+    <!-- User info -->
+    @{ await Html.RenderPartialAsync("_CurrentUser"); }
+    <!-- end user info -->
+    <!-- NAVIGATION : This navigation is also responsive
+
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <nav>
+      
+        <!-- NOTE: Notice the gaps after each icon usage <i></i>..
+        Please note that these links work a bit different than
+        traditional href="" links. See documentation for details.
+        -->
+        <ul>
+            <li class="@Html.RouteIf("index", "active")">
+                <a href="@Url.Action("index", "home")" title="@Localizer["Dashboard"]"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">@Localizer["Dashboard"]</span></a>
+            </li>
+           
+          <li>
+              
+
+
+
+          </li>
+
+            <li class="top-menu-invisible @Html.RouteIf("", "Statistic", "active" )">
+                <a href="#"><i class="fa fa-lg fa-fw fa-book"></i> <span class="menu-item-parent">@Localizer["Estatísticas"]</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("Deal", "Statistic", "active")">
+                        <a asp-action="Deal" asp-controller="Statistic" title="Report"><i class="fa fa-lg fa-fw fa-bullhorn"></i> <span class="menu-item-parent">@Localizer["Deals"]</span></a>
+                    </li>
+
+
+                    <li class="@Html.RouteIf("Task", "Statistic", "active")">
+                        <a asp-action="Task" asp-controller="Statistic" title="Report"><i class="fa fa-lg fa-fw fa-tasks"></i> <span class="menu-item-parent">@Localizer["Task"]</span></a>
+                    </li>
+
+                    <li class="@Html.RouteIf("TimeStage", "Statistic", "active")">
+                        <a asp-action="TimeStage" asp-controller="Statistic" title="Report"><i class="fa fa-lg fa-fw fa-clock-o"></i> <span class="menu-item-parent">@Localizer["Tempo Liberação"]</span></a>
+                    </li>
+                  
+                </ul>
+            </li>
+
+         
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>
+<!-- END NAVIGATION -->

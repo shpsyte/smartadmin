@@ -1,0 +1,32 @@
+Create By : José luiz
+Date: 23/06/2017
+About: ERP & CRM Software Application
+
+--no-build
+
+--exeplo
+dotnet ef dbcontext scaffold "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SmartAdmin;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;" Microsoft.EntityFrameworkCore.SqlServer -c ContextOnlyGClasse -o Data -t Teste
+
+
+--Gerar Classe
+dotnet ef dbcontext scaffold "Data Source=idellserver\sqlexpress;Initial Catalog=SmartAdmin;User Id=iscosistemas;Password=keycode&senh@01;" Microsoft.EntityFrameworkCore.SqlServer -c ContextOnlyGClasse -o Data -f -t Stage -t UserSetting -t Deal -t DealStage
+
+
+
+
+--Gerar Controller Sem View
+dotnet aspnet-codegenerator --project . --no-build controller --force --controllerName GoalController --model Smart.Core.Domain.Goals.Goal --dataContext ContextOnlyGClasse --relativeFolderPath Controllers --noViews
+
+
+--Gerar View List
+dotnet.exe aspnet-codegenerator --project . --no-build view List List --force --model Smart.Core.Domain.Goals.Goal --dataContext ContextOnlyGClasse --relativeFolderPath Views\Goal --useDefaultLayout
+
+--Gerar View Add
+dotnet.exe aspnet-codegenerator --project . --no-build view Add Add --force --model Smart.Core.Domain.Goals.Goal --dataContext ContextOnlyGClasse --relativeFolderPath Views\Goal --useDefaultLayout
+
+
+-_Gerar View Edit
+dotnet.exe aspnet-codegenerator --project . --no-build view Edit Edit --force --model Smart.Core.Domain.Goals.Goal --dataContext ContextOnlyGClasse --relativeFolderPath Views\Goal --useDefaultLayout
+
+-_Gerar View _CreateOrUpdate
+dotnet.exe aspnet-codegenerator --project . --no-build view _CreateOrUpdate _CreateOrUpdate --force --model Smart.Core.Domain.Goals.Goal --dataContext ContextOnlyGClasse --relativeFolderPath Views\Goal --useDefaultLayout

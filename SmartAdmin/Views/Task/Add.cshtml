@@ -1,0 +1,45 @@
+@model Smart.Core.Domain.Tasks.Task
+
+<div class="well well-light">
+    <h4 class="txt-color-teal">@Localizer["Task"]</h4>
+    <p class="note">@Localizer["Definição de Task"]</p>
+    <form asp-action="Add" asp-controller="Task" method="post" asp-antiforgery="true" class="form-horizontal">
+        @{ await Html.RenderPartialAsync("_CreateOrUpdate"); }
+        <div class="form-actions text-align-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="demo-btns">
+                        <li class="add">
+                            <button asp-route-continueAdd="false" type="submit" class="btn btn-labeled bg-color-blue txt-color-white">
+                                <span class="btn-label"><i class="fa fa-save"></i></span>@Localizer["Salvar"]
+                            </button>
+                        </li>
+                        <li class="addContinue">
+                            <button asp-route-continueAdd="true" type="submit" class="btn btn-labeled btn-default">
+                                <span class="btn-label"><i class="fa fa-refresh"></i></span>@Localizer["Salvar e Novo"]
+                            </button>
+                        </li>
+                        <li>
+                            <a asp-action="List" asp-controller="Task" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>@Localizer["Voltar"] </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts
+{
+    <script src="~/jsView/task.min.js"></script>
+<script src="~/lib/plugin/clockpicker/clockpicker.min.js"></script>
+    <script type="text/javascript">
+        $('#clockpicker').clockpicker({
+            placement: 'top',
+            donetext: 'Done'
+        });
+
+
+</script>
+ 
+}

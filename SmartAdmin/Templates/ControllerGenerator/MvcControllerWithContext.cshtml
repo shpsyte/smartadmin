@@ -1,0 +1,362 @@
+﻿@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Smart.Services.Interfaces;
+using Smart.Core.Domain.Identity;
+using SmartAdmin.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using System.Reflection;
+using System.IO;
+
+
+@{
+    foreach (var namespaceName in Model.RequiredNamespaces)
+    {
+@:using @namespaceName;
+    }
+}
+
+namespace @Model.ControllerNamespace
+{
+@{
+    string routePrefix;
+    if (String.IsNullOrEmpty(Model.AreaName))
+    {
+        routePrefix = Model.ControllerRootName;
+    }
+    else
+    {
+        routePrefix = Model.AreaName + "/" + Model.ControllerRootName;
+    }
+    var modelProperties = new List<string>();
+    foreach (var property in Model.ModelMetadata.Properties)
+    {
+        if (property.Scaffold)
+        {
+            modelProperties.Add(property.PropertyName);
+        }
+    }
+    var bindString = string.Join(",", modelProperties);
+    var contextTypeName = Model.ContextTypeName;
+    var entitySetName = Model.ModelMetadata.EntitySetName;
+    var entitySetVar = Model.EntitySetVariable ??
+        (String.IsNullOrEmpty(entitySetName)
+            ? entitySetName
+            : (entitySetName.Substring(0, length: 1).ToLowerInvariant() + entitySetName.Substring(1)));
+    var primaryKeyName = Model.ModelMetadata.PrimaryKeys[0].PropertyName;
+    var primaryKeyShortTypeName = Model.ModelMetadata.PrimaryKeys[0].ShortTypeName;
+    var primaryKeyType = Model.ModelMetadata.PrimaryKeys[0].TypeName;
+    var primaryKeyNullableTypeName = GetNullableTypeName(primaryKeyType, primaryKeyShortTypeName);
+    var serviceName = (entitySetName.Substring(0, length: 1).ToLowerInvariant() + entitySetName.Substring(1));
+    var lambdaVar = Model.ModelVariable[0];
+    var routemanager = Model.ModelVariable + "-management";
+    var routemanagerlist = routemanager + "/" + Model.ModelVariable + "-list";
+    var routemanageradd = routemanager + "/" + Model.ModelVariable + "-add";
+    var routemanageredit = routemanager + "/" + Model.ModelVariable + "-edit/{id?}";
+    var routemanagerdelete = routemanager + "/" + Model.ModelVariable + "-delete/{id?}";
+
+
+
+
+    var relatedProperties = new Dictionary<string, dynamic>();
+    IEnumerable<PropertyMetadata> properties = Model.ModelMetadata.Properties;
+    foreach (var nav in Model.ModelMetadata.Navigations)
+    {
+        relatedProperties.Add(nav.AssociationPropertyName, nav);
+
+    }
+
+    var inlineIncludes = "";
+    foreach (var property in relatedProperties.Values)
+    {
+        inlineIncludes += string.Format("{0} .Include({1} => {1}.{2})", Environment.NewLine, lambdaVar, property.AssociationPropertyName);
+    }
+
+    if (!string.IsNullOrEmpty(Model.AreaName))
+    {
+    @:@string.Format("[Area(\"{0}\")]", Model.AreaName)
+    }
+}
+@{ var serviceNameCompleteName = "_" + serviceName + "Services";}
+    
+    public class @Model.ControllerName : BaseController
+    {
+
+        #region vars
+        private readonly  IServices<@entitySetName> @(serviceNameCompleteName);
+           @foreach (var property in relatedProperties.Values)
+           {
+               var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", ""));
+               @:private readonly  IServices<@name>  _@(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services;
+            }
+        #endregion
+
+
+        #region ctor
+         public @(Model.ControllerName)(
+                                @foreach (var property in relatedProperties.Values)
+                                { var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", ""));
+                                    @:IServices<@name>  @(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services,
+                                }
+                                    IServices<@entitySetName> @(serviceName)Services, 
+                                    IUser currentUser, 
+                                    IServices<UserSetting> currentSetting, 
+                                    IEmailSender emailSender, 
+                                    ISmsSender smsSender, 
+                                    IHttpContextAccessor accessor
+                                    ) : base(currentUser, currentSetting, emailSender, smsSender, accessor)
+         {
+           this.@serviceNameCompleteName = @(serviceName)Services;
+            @foreach (var property in relatedProperties.Values)
+            {
+                var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", ""));
+               @:this._@(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services = @(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services;
+            }
+         }
+        #endregion
+
+       #region methods
+
+        // GET: @routePrefix
+        [Route("@routemanagerlist")]
+        public IActionResult List(string search)
+        {
+            ViewData["search"] = search;
+            var data = @(serviceNameCompleteName).Query();
+            @if (ExistsDeletedColumn())
+            {
+                @: data = data.Where(p => p.Deleted == false);
+            }
+            if (!string.IsNullOrEmpty(search)) 
+            {
+               data = data.Where(p =>  
+                @{ int linha = 1;}
+                    @foreach (var property in properties)
+                    {
+                        if ((property.TypeName == "System.String") && (property.PropertyName != "BusinessEntityId"))
+                        {
+                            if (linha == 1) {
+      @: p.@(property.PropertyName).Contains(search)
+                            }
+                            else
+                            {
+                  @: || p.@(property.PropertyName).Contains(search)
+                            }
+                            linha++;
+                        }
+
+                    }
+                );
+            }
+               return View(data.ToList());
+        }
+
+        [Route("@routemanageradd")]
+        public IActionResult Add()
+        {
+            @foreach (var property in relatedProperties.Values)
+           { var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", "")); 
+                @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_@(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services.GetAll(), "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
+            }
+          var data = new @(entitySetName)();
+          return View(data);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        [Route("@routemanageradd")]
+        public IActionResult Add([Bind("@bindString")] @Model.ModelTypeName @Model.ModelVariable, bool continueAdd)
+        {
+            @foreach (var property in relatedProperties.Values)
+           { var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", "")); 
+                @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_@(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services.GetAll(), "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
+            }
+           if (!ModelState.IsValid) return View(@Model.ModelVariable);
+    @if (ExistsImageColumn())
+    {
+            @:try
+            @:{
+                @:using (var memoryStream = new MemoryStream())
+                @:{
+                    @:@(Model.ModelVariable).avatarImage.CopyTo(memoryStream);
+                    @:@(Model.ModelVariable).Image = memoryStream.ToArray();
+                @:}
+            @:}
+            @:catch {; }
+    }
+           @(serviceNameCompleteName).Add(@Model.ModelVariable);
+           return continueAdd ? RedirectToAction("Add") : RedirectToAction("List");
+        }
+
+
+        [Route("@routemanageredit")]
+        public IActionResult Edit(@primaryKeyNullableTypeName id)
+        {
+            if (id == null)
+            {
+               return NotFound();
+            }
+            var @Model.ModelVariable = @(serviceNameCompleteName).Find(id);
+            @if (!ExistsDeletedColumn())
+            { 
+                @:if (@Model.ModelVariable == null)
+                @:{
+                    @:return NotFound();
+                @:}
+            }else{
+                @:if ( (@Model.ModelVariable == null) || (@(Model.ModelVariable).Deleted) )
+                @:{
+                    @:return NotFound();
+                @:}
+            }
+            @foreach (var property in relatedProperties.Values)
+           { var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", "")); 
+                @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_@(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services.GetAll(), "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
+            }
+            return View(@Model.ModelVariable);
+        }
+
+        
+        [HttpPost, ValidateAntiForgeryToken]
+        [Route("@routemanageredit")]
+        public IActionResult Edit([Bind("@bindString")] @Model.ModelTypeName @Model.ModelVariable, bool continueAdd, bool addTrash)
+        {
+            @foreach (var property in relatedProperties.Values)
+            { var name = (property.EntitySetName.Replace("()", "").Replace("Set<", "").Replace(">", ""));
+                @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_@(name.Substring(0, length: 1).ToLowerInvariant() + name.Substring(1))Services.GetAll(), "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
+            }
+             @if (ExistsDeletedColumn())
+             {
+                 @: typeof(@Model.ModelTypeName).GetProperty("Deleted").SetValue(@Model.ModelVariable, addTrash);
+             }
+             if (!ModelState.IsValid) return View(@Model.ModelVariable);
+
+    @if (ExistsImageColumn())
+    {
+            @:try
+            @:{
+                @:using (var memoryStream = new MemoryStream())
+                @:{
+                    @:@(Model.ModelVariable).avatarImage.CopyTo(memoryStream);
+                    @:@(Model.ModelVariable).Image = memoryStream.ToArray();
+                @:}
+            @:}
+            @:catch {; }
+    }
+
+
+
+
+            @(serviceNameCompleteName).Update(@Model.ModelVariable);
+            return continueAdd ? RedirectToAction("Edit", new { id = @(Model.ModelVariable).@(primaryKeyName) }) : RedirectToAction("List");
+        }
+
+    @if (ExistsImageColumn())
+    {
+        @:public ActionResult Avatar(int id)
+        @:{
+            @:byte[] data = @(serviceNameCompleteName).Find(id).Image;
+            @:if (data == null)
+            @:{ data = new byte[0]; }
+            @:return File(data, "image/png");
+        @:}
+    }
+
+     @if (!ExistsDeletedColumn())
+     {
+     
+        @:[Route("@routemanagerdelete")]
+         @:public IActionResult Delete(@primaryKeyNullableTypeName id)
+         @:{
+             @:if (id == null)
+             @:{
+                 @:return NotFound();
+             @:}
+               @: var @Model.ModelVariable = @(serviceNameCompleteName).Find(id);
+
+                @:if (@Model.ModelVariable == null)
+                @:{
+                    @:return NotFound();
+                @:}
+                     @:return View(@Model.ModelVariable);
+          @:}  
+
+
+
+
+         @:[HttpPost, ValidateAntiForgeryToken]
+         @:[Route("@routemanagerdelete")]
+         @:public IActionResult Delete(@Model.ModelTypeName @Model.ModelVariable)
+         @:{
+            @:@(serviceNameCompleteName).Delete(@Model.ModelVariable);
+             @:return RedirectToAction("List");
+         @:}
+     }
+
+     #endregion
+    }
+     
+}
+
+@functions
+    {
+    bool ExistsImageColumn()
+    {
+        IEnumerable<PropertyMetadata> internalproperties = Model.ModelMetadata.Properties;
+        foreach (var property in internalproperties)
+        {
+            if ((property.PropertyName == "Image"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool ExistsDeletedColumn()
+    {
+        IEnumerable<PropertyMetadata> internalproperties = Model.ModelMetadata.Properties;
+        foreach (var property in internalproperties)
+        {
+            if ((property.PropertyName == "Deleted"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    // This function converts the primary key short type name to its nullable equivalent when possible. This is required to make
+    // sure that an HTTP 400 error is thrown when the user tries to access the edit, delete, or details action with null values.
+    string GetNullableTypeName(string typeName, string shortTypeName)
+    {
+        // The exceptions are caught because if for any reason the type is user defined, then the short type name will be used.
+        // In that case the user will receive a server error if null is passed to the edit, delete, or details actions.
+        Type primaryKeyType = null;
+        try
+        {
+            primaryKeyType = Type.GetType(typeName);
+        }
+        catch
+        {
+        }
+        if (primaryKeyType != null && (Microsoft.VisualStudio.Web.CodeGeneration.Templating.TypeUtilities.IsTypePrimitive(primaryKeyType) || IsGuid(typeName)))
+        {
+            return shortTypeName + "?";
+        }
+        return shortTypeName;
+    }
+
+    bool IsGuid(string typeName)
+    {
+        return String.Equals("System.Guid", typeName, StringComparison.OrdinalIgnoreCase);
+    }
+}

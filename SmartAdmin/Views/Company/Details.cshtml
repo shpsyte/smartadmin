@@ -1,0 +1,588 @@
+﻿@model SmartAdmin.Models.Persons.CompanyViewModel
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<div id="content no-margim ">
+    <div class="well well-sm well-clean">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="well well-light well-sm no-margin  ">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="map" class="google_maps" style="width:100%; height:250px"></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-4 profile-pic">
+                                    <img src="@Url.Action("Avatar","Company",new { id= Model.Company.CompanyId })">
+                                </div>
+                                <div class="col-sm-4">
+                                    <h4 class="font-md">
+                                        <small>Cliente desde:</small>
+                                        <br>
+                                        <strong> @Model.Company.CreateDate.ToString("d") </strong>
+                                    </h4>
+                                </div>
+                                @*<div class="col-sm-4">
+                                    <h4 class="font-md">
+                                        <small>Endereço</small>
+                                        <br>
+                                        <strong> @Model.Company.CreateDate.ToString("d") </strong>
+                                    </h4>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="well well-light">
+                    <div class="row">
+                        <div class="col-md-12 padding-5">
+                            @if (!Model.Company.Active)
+                {
+                                <div class="pull-right">
+                                    <i class="fa fa-2x fa-remove txt-color-red"></i>
+
+                                </div>
+                            }
+                            <ul class="demo-btns">
+                                <li>
+                                    <a asp-action="List" class="btn btn-labeled bg-color-green txt-color-white "> <span class="btn-label"><i class="glyphicon glyphicon-arrow-left"></i></span> @Localizer["Return"]</a>
+                                </li>
+
+                                @if (!Model.Company.Active)
+            {
+                                    <li>
+                                        <form asp-action="Active" asp-antiforgery="true" asp-route-id="@Model.Company.CompanyId" asp-route-active="true" method="post">
+                                            <button type="submit" class="btn btn-labeled bg-color-greenLight txt-color-white"> <span class="btn-label"><i class="glyphicon glyphicon-thumbs-up"></i></span> @Localizer["Reativar"]</button>
+                                        </form>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <form asp-action="Active" asp-route-id="@Model.Company.CompanyId" asp-route-active="false" method="post">
+                                            <button type="submit" class="btn btn-labeled bg-color-yellow txt-color-white"> <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span> @Localizer["Inativar"]</button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form asp-action="Active" asp-route-id="@Model.Company.CompanyId" asp-route-delete="true" method="post">
+                                            <button type="submit" class="btn btn-labeled btn-danger"> <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span> @Localizer["Trash"]</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div class="col-md-12 padding-5">
+                            <small class="note">@Localizer["FirstName"]</small>
+                            <h2 class="no-padding no-margin">
+                                <a href="#" class="editable" data-type="text"
+                                   data-pk="@Model.Company.CompanyId"
+                                   data-name="FirstName"
+                                   data-placeholder="Name..."
+                                   data-original-title="Name">@Model.Company.FirstName</a>
+                            </h2>
+
+                        </div>
+
+                        <div class="col-md-12 padding-5">
+                            <small class="note">@Localizer["LastName"]</small>
+                            <h3 class="no-padding no-margin">
+                                <a href="#" class="editable" data-type="text"
+                                   data-pk="@Model.Company.CompanyId"
+                                   data-name="LastName"
+                                   data-placeholder="LastName..."
+                                   data-original-title="Name">@Model.Company.LastName</a>
+                            </h3>
+                        </div>
+                        <div class="col-md-12 padding-5">
+                            <small class="note">@Localizer["Email"]</small>
+                            <h4 class="no-padding no-margin">
+                                <a href="#" class="editable" data-type="email"
+                                   data-pk="@Model.Company.CompanyId"
+                                   data-name="Email"
+                                   data-placeholder="Email..."
+                                   data-original-title="Email">@Model.Company.Email</a>
+                            </h4>
+                        </div>
+                        <div class="col-md-12 padding-5">
+                            <small class="note">@Localizer["Fone"]</small>
+                            <h4 class="no-padding no-margin">
+                                <a href="#" class="editable" data-type="text"
+                                   data-pk="@Model.Company.CompanyId"
+                                   data-name="Phone"
+                                   data-placeholder="Phone..."
+                                   data-original-title="Phone">@Model.Company.Phone</a>
+                            </h4>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="well well-light">
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Detalhes</div>
+                                    <div class="panel-body">
+                                        <p>@Localizer["O que você sabe mais sobre este negócio"]</p>
+                                        <a href="#" class="editable" data-type="textarea"
+                                           data-pk="@Model.Company.CompanyId"
+                                           data-name="Comments"
+                                           data-original-title="Enter comments">@Model.Company.Comments</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><i class="fa fa-user"></i> Contato </div>
+                                    <div class="panel-body">
+                                        <table id="tblContatos" class="table table-striped table-bordered table-hover" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th data-class="expand">Nome</th>
+                                                    <th data-hide="phone,tablet"><i class="fa fa-fw fa-phone txt-color-blue hidden-md hidden-sm hidden-xs"></i>Fone</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Contacts)
+                                                {
+                                                    <tr>
+                                                        <td><a asp-action="Edit" asp-controller="Contact" asp-route-id="@item.ContactId" > @item.FirstName </a></td>
+                                                        <td data-hide="phone,tablet">@item.Phone</td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+                                        <div class="panel-group smart-accordion-default" id="accordion-2">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseOne-1" aria-expanded="false" class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> Adicionar Novo </a></h4>
+                                                </div>
+                                                <div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="">
+                                                    <div class="panel-body">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">Nome</span>
+                                                                <input type="text" class="form-control" placeholder="Nome" id="Name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">Fone</span>
+                                                                <input type="tel" class="form-control" placeholder="Fone" id="Phone">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">Email</span>
+                                                                <input type="email" class="form-control" placeholder="Email" id="Email">
+                                                            </div>
+                                                        </div>
+
+                                                        <a onclick="company.SaveContact(this)" data-id="@Model.Company.CompanyId" class="btn btn-success"> @Localizer["Salvar"] </a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                        
+                                      
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-8">
+                        <div class="well well-light">
+                            <ul id="myTab1" class="nav nav-tabs bordered">
+                                <li class="active">
+                                    <a href="#Street" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-outdent"></i> Endereços</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Notes" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-comment-o "></i> Notas</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Tasks" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-calendar"></i> Atividades </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="#Emails" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-envelope-o"></i> Email</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Files" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-paperclip"></i> Arquivos</a>
+                                </li>
+
+                            </ul>
+
+                            <div id="myTabContent1" class="tab-content padding-10">
+                                <div class="tab-pane fade in active" id="Street">
+                                    <input id="fakeddress" type="hidden" value="@(Model.Adress.Count() > 0 ? Model.Adress.First().FullAddress : "")" />
+                                    <table id="tblEndereco" class="table table-striped table-bordered table-hover" width="100%">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Cep</th>
+                                                <th>Endereço</th>
+                                                <th>Número</th>
+                                                <th>Bairro</th>
+                                                <th>Compl.</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                           
+                                           @foreach (var item in Model.Adress)
+                                           {
+                                            <tr>
+                                                @*<td>@item.FullAddress  </td>*@
+                                                <td> <a href="#" class="editableaddress" data-type="text" data-pk="@item.AddressId" data-name="PostalCode">@item.PostalCode</a>  </td>
+                                                <td> <a href="#" class="editableaddress" data-type="text" data-pk="@item.AddressId" data-name="AddressLine1">@item.AddressLine1</a>  </td>
+                                                <td> <a href="#" class="editableaddress" data-type="text" data-pk="@item.AddressId" data-name="AddressNumber">@item.AddressNumber</a>  </td>
+                                                <td> <a href="#" class="editableaddress" data-type="text" data-pk="@item.AddressId" data-name="AddressLine3">@item.AddressLine3</a>  </td>
+                                                <td> <a href="#" class="editableaddress" data-type="text" data-pk="@item.AddressId" data-name="AddressLine2">@item.AddressLine2</a>  </td>
+
+                                                <td width="100"><a href="javascript:void(0);" onclick="initMap('@item.FullAddress', 'map');" class="btn btn-sm btn-info">@Localizer["Ver no mapa"]</a></td>
+                                                <td id="line_@item.AddressId" width="100"><a  href="javascript:void(0);" data-id="@item.AddressId" onclick="address.RemoveAddress(this)" class="btn btn-sm btn-danger">@Localizer["Delete"]</a></td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <a href="javascript:void(0);" class="btn btn-success" data-toggle="modal" data-target="#myModal">@Localizer["Adicionar Novo"]</a>
+
+                                </div>
+
+
+
+                                <div class="tab-pane fade in" id="Notes">
+                                    <form method="post" class="well well-clean" onsubmit="return false;">
+                                        <textarea id="Comments" asp-for="Note.Comments" rows="2" class="form-control" placeholder="What are you thinking?"></textarea>
+                                        <div class="margin-top-10">
+                                            <button data-id="@Model.Company.CompanyId" onclick="company.AddComment(this)" type="button" class="btn btn-sm btn-primary pull-right ">
+                                                @Localizer["Salvar"]
+                                            </button>
+                                        </div>
+                                        <p class="note">@Localizer["Postar um comentário nesta compania"]</p>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade in" id="Tasks">
+
+                                    <form asp-controller="Company" asp-route-id="@Model.Company.CompanyId" asp-action="PostTask" data-ajax-success="AddTask" data-ajax="true" data-ajax-method="POST" class="smart-form">
+                                        @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                                        <fieldset>
+                                            <section>
+                                                <div class="inline-group">
+                                                    @foreach (var item in Model.TaskGroups)
+                                                    {
+                                                        <label class="radio">
+                                                            <input onclick="company.SetNameTask(this)" asp-for="Task.TaskGroupId" type="radio" value="@item.TaskGroupId" data-text="@item.Name" />
+                                                            <i></i>@item.Name
+                                                        </label>
+
+                                                    }
+                                                    <span asp-validation-for="Task.TaskGroupId" class="text-danger"></span>
+                                                </div>
+                                            </section>
+                                            <section>
+                                                <label class="input">
+                                                    <input type="text" asp-for="Task.Name" placeholder="Assunto" class="form-control">
+                                                    <span asp-validation-for="Task.Name" class="text-danger"></span>
+                                                </label>
+                                            </section>
+                                            <div class="row">
+                                                <section class="col col-4">
+                                                    <label class="input">
+                                                        <label class="label">@Localizer["Quando"]</label>
+                                                        <input type="datetime" id="DueDate" asp-for="Task.DueDate" placeholder="Quando?" class="datepicker">
+                                                        <span asp-validation-for="Task.DueDate" class="text-danger"></span>
+
+                                                    </label>
+                                                </section>
+                                                <section class="col col-4">
+                                                    <label class="input">
+                                                        <label class="label">@Localizer["Inicio"]</label>
+                                                        @*<select asp-for="Task.Time" class="form-control" asp-items="ViewBag.Tempo"><option></option> </select>*@
+                                                        <input class="form-control" id="clockpicker" asp-for="Task.Time" type="text" placeholder="Select time" data-autoclose="true">
+                                                        <span asp-validation-for="Task.Time" class="text-danger"></span>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-4">
+                                                    <label class="input">
+                                                        <label class="label">@Localizer["Duração"]</label>
+                                                        <select asp-for="Task.Duration" class="form-control" asp-items="ViewBag.Tempo"><option></option> </select>
+                                                    </label>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="label">Comment</label>
+                                                    <label class="textarea textarea-expandable">
+                                                        <i class="icon-append fa fa-comment"></i>
+                                                        <textarea rows="4" class="form-control custom-scroll" asp-for="Task.Comments"></textarea>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label asp-for="Task.UserSettingId">Assigned to</label>
+                                                    <select asp-for="Task.UserSettingId" class="select2" asp-items="ViewBag.UserSettingId"></select>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-2">
+                                                    <label class="checkbox">
+                                                        <input name="checkbox" asp-for="Task.Done" type="checkbox">
+                                                        <i></i>Concluída
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                        <footer>
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="fa fa-calendar"></i>  @Localizer["Enviar"]
+                                            </button>
+                                        </footer>
+
+
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade in" id="Emails">
+                                    <form method="post" class="well well-clean" onsubmit="return false;">
+                                        <h1>Not yet implemented</h1>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade in" id="Files">
+                                    <form asp-action="AddDoc" asp-route-id="@Model.Company.CompanyId" id="dropzone" enctype="multipart/form-data" role="form" name="file" method="post" class="dropzone well well-clean"></form>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header well well-clean ">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">
+                                            @Localizer["Adicionar Endereço"]
+                                        </h4>
+                                    </div>
+                                    <vc:address address-Id="0" id="@Model.Company.CompanyId" area="Company" return-Url="@Url.Action("Details","Company", new { id = Model.Company.CompanyId })"> </vc:address>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <h1>TimeLine</h1>
+                        <div class="well well-sm well-light">
+                            <!-- Timeline Content -->
+                            <div class="smart-timeline">
+                                <ul id="timelinedeal" class="smart-timeline-list">
+                                    @foreach (var item in Model.History.OrderByDescending(a => a.EventDate))
+                                    {
+                                        <li>
+
+                                            @if (item.Event.Equals("CREATE"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-blueDark">
+                                                    <i class="fa fa-asterisk"></i>
+                                                </div>
+                                            }
+                                            @if (item.Event.Equals("NOTE"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-yellow">
+                                                    <i class="fa fa-file-text-o"></i>
+                                                </div>
+
+                                            }
+                                            @if (item.Event.Equals("TASK"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-green"><i class="fa fa-tasks"></i></div>
+
+                                            }
+                                            @if (item.Event.Equals("FILE"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-purple"><i class="fa fa-paperclip"></i></div>
+
+                                            }
+
+                                            <div class="smart-timeline-time">
+                                                <small>@item.EventDate</small>
+                                            </div>
+                                            <div class="smart-timeline-content">
+
+
+
+                                                @if (item.Event.Equals("CREATE"))
+                                                {
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Compania Criada"]</strong></a>
+                                                    <p> @item.Name </p>
+                                                }
+
+                                                @if (item.Event.Equals("NOTE"))
+                                                {
+
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Nota Adicionada"]</strong></a>
+
+                                                    <blockquote>
+                                                        <p>@item.Comments</p>
+                                                    </blockquote>
+
+                                                }
+
+
+                                                @if (item.Event.Equals("TASK"))
+                                                {
+
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Tarefa Criada"] <i class="fa @(item.Done ? "fa-check txt-color-green" : "fa-remove txt-color-red") "></i></strong></a>
+                                                    <div>
+                                                        <p>@item.Name </p>
+                                                        <small> @item.DueDate </small>
+
+                                                        <p>@item.Comments</p>
+                                                    </div>
+
+
+                                                }
+
+
+                                                @if (item.Event.Equals("FILE"))
+                                                {
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Documento Anexo"]</strong></a>
+                                                    <div>
+                                                        <a asp-action="Download" asp-controller="Company" asp-route-id="@item.Pk">@item.Name</a>
+                                                        <p>@item.Comments</p>
+                                                    </div>
+                                                }
+
+                                                <p class="note">
+                                                    @item.UserName, @Html.ElapsedTime(item.EventDate)
+                                                </p>
+
+
+                                            </div>
+                                        </li>
+                                    }
+
+
+
+
+                                </ul>
+                            </div>
+                            <!-- END Timeline Content -->
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/plugin/x-editable/x-editable.min.js"></script>
+    <script src="~/lib/plugin/dropzone/dropzone.min.js"></script>
+    <script src="~/jsView/company.min.js"></script>
+    <script src="~/lib/plugin/clockpicker/clockpicker.min.js"></script>    
+    <script src="~/jsView/Address.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0VxY6KEDgqnCUw2Skk7gJa9ZcncNm9ZQ&signed_in=true"></script>
+    <script>company.Makeditable('.editable')</script>
+    <script>address.Makeditable('.editableaddress')</script>
+    
+    <script type="text/javascript">
+
+        Dropzone.autoDiscover = false;
+        $('#dropzone').dropzone({
+            //url: "/file/post",
+            addRemoveLinks: true,
+            maxFilesize: 0.5,
+            dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+            dictResponseError: 'Error uploading file!',
+            success: function (file, response) {
+                company.AddLI("Doc Adicionado");
+            }
+        });
+
+        $('#clockpicker').clockpicker({
+            placement: 'top',
+            donetext: 'Done'
+        });
+
+        function AddTask(data) {
+            company.AddTask(data);
+        }
+
+        function initMap(EndCli, Componente) {
+            var latlng = new google.maps.LatLng(40.7062, -74.009);
+            var mapOptions =
+                {
+                    zoom: 15,
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
+                }
+
+
+            map = new google.maps.Map(document.getElementById(Componente), mapOptions);
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ 'address': EndCli }, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    map = new google.maps.Map(document.getElementById(Componente), mapOptions);
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+            var iniend = $("#fakeddress").val();
+            //sleep(3000);
+            initMap(iniend, 'map');
+
+        });
+    </script>
+
+
+}

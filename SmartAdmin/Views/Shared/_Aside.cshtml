@@ -1,0 +1,119 @@
+﻿@using SmartAdmin.Helpers
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
+    <!-- User info -->
+    @{ await Html.RenderPartialAsync("_CurrentUser"); }
+    <!-- end user info -->
+    <!-- NAVIGATION : This navigation is also responsive
+
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <nav>
+        <!-- NOTE: Notice the gaps after each icon usage <i></i>..
+        Please note that these links work a bit different than
+        traditional href="" links. See documentation for details.
+        -->
+        <ul>
+            <li class="@Html.RouteIf("index", "active")">
+                <a href="@Url.Action("index", "home")" title="@Localizer["Dashboard"]"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">@Localizer["Dashboard"]</span></a>
+            </li>
+
+            <li class="@Html.RouteIf("", "Task", "active")">
+                <a href="@Url.Action("List", "Task")" title="@Localizer["Tarefas"]"> <i class="fa fa-lg fa-fw fa-tasks"><em><vc:Qty-Todo is-done="false"> </vc:Qty-Todo> </em></i> <span class="menu-item-parent">@Localizer["Tarefas"] </span>  </a>
+            </li>
+
+          
+            <li class="top-menu-invisible @Html.RouteIf("List;Edit;Add;Delete", "Company;Person;Contact","active" )">
+                <a href="#"><i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">@Localizer["Pessoas"]</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("", "Company", "active")">
+                        <a asp-action="List" asp-controller="Company" title="Customer"><i class="fa fa-lg fa-fw fa-institution"></i> <span class="menu-item-parent">@Localizer["Clientes"]</span></a>
+                    </li>
+                    <li class="@Html.RouteIf("", "Contact", "active")">
+                        <a asp-action="List" asp-controller="Contact" title="Contact"><i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">@Localizer["Contatos"]</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="top-menu-invisible @Html.RouteIf("", "Deal","active" )">
+                <a href="#"><i class="fa fa-lg fa-fw fa-bullhorn"></i> <span class="menu-item-parent">@Localizer["CRM"]</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("Pipeline", "Deal", "active")">
+                        <a asp-action="Pipeline" asp-controller="Deal" title="Deal"><i class="glyphicon glyphicon-th-large"></i> <span class="menu-item-parent">@Localizer["Pipeline"]</span></a>
+                    </li>
+                    
+                </ul>
+            </li>
+
+
+            <li class="@Html.RouteIf("", "Statistic", "active")">
+                <a asp-action="Deal" asp-controller="Statistic" title="Report"><i class="fa fa-lg fa-fw fa-book"></i> <span class="menu-item-parent">@Localizer["Estatísticas"]</span></a>
+            </li>
+
+
+
+            <li class="top-menu-invisible @Html.RouteIf(" Setting", "active" )">
+                <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">@Localizer["Configuração"]</span></a>
+                <ul>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-users"></i> @Localizer["Contas"]</a>
+                        <ul>
+                            <li class="@Html.RouteIf("businessentity", "active")">
+                                <a asp-action="BusinessEntity" asp-controller="Setting" title="Business Setting"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">@Localizer["Perfil do Sistema"]</span></a>
+                            </li>
+                            <li class="@Html.RouteIf("settings", "active")">
+                                <a asp-action="Settings" asp-controller="Setting" title="Setting"><i class="fa fa-lg fa-fw fa-child"></i> <span class="menu-item-parent">@Localizer["Meu Perfil"]</span></a>
+                            </li>
+                            <li class="@Html.RouteIf("manage", "active")">
+                                <a asp-action="Index" asp-controller="Manage" title="Meu Usuário"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">@Localizer["Minha Conta"]</span></a>
+                            </li>
+                            <li class="@Html.RouteIf("List","manage", "active")">
+                                <a asp-action="List" asp-controller="Manage" title="Meu Usuário"><i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">@Localizer["Usuários"]</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-gear"></i>@Localizer["Módulos"]</a>
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-bullhorn"></i> @Localizer["Crm"]</a>
+                                <ul>
+                                    @*<li class="@Html.RouteIf("List;Add;Edit;Delete", "Stage", "active" )">
+                                        <a asp-action="List" asp-controller="Stage" title="Stage"><i class="fa fa-lg fa-fw fa-check-circle"></i> <span class="menu-item-parent">@Localizer["Stage"]</span></a>
+                                    </li>*@
+                                    <li class="@Html.RouteIf("List;Add;Edit;Delete;Configure", "Pipeline;Stage", "active" )">
+                                        <a asp-action="List" asp-controller="Pipeline" title="Pipeline"><i class="fa fa-lg fa-fw fa-fast-forward"></i> <span class="menu-item-parent">@Localizer["Pipeline"]</span></a>
+                                    </li>
+
+                                    <li class="@Html.RouteIf("List;Add;Edit;Delete;Configure", "Goal", "active" )">
+                                        <a asp-action="List" asp-controller="Goal" title="Goals"><i class="fa fa-lg fa-fw fa-send"></i> <span class="menu-item-parent">@Localizer["Metas"]</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-tasks"></i> @Localizer["Task"]</a>
+                                <ul>
+                                  
+                                    <li class="@Html.RouteIf("List;Add;Edit;Delete", "TaskGroup", "active" )">
+                                        <a asp-action="List" asp-controller="TaskGroup" title="Task"><i class="fa fa-lg fa-fw fa-tasks"></i> <span class="menu-item-parent">@Localizer["Grupo"]</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="@Html.RouteIf("", "Territory;StateProvince;City", "active")">
+                        <a asp-action="List" asp-controller="Territory" title="Territory"><i class="fa fa-lg fa-fw fa-globe"></i> <span class="menu-item-parent">@Localizer["Regiões"]</span></a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>
+<!-- END NAVIGATION -->

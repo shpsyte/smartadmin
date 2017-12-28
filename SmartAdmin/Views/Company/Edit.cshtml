@@ -1,0 +1,45 @@
+﻿@model Smart.Core.Domain.Person.Company
+
+<div class="well well-light">
+    <h4 class="txt-color-teal">@Localizer["Company"]</h4>
+    <p class="note">@Localizer[""]</p>
+    
+    <form asp-action="Edit" asp-antiforgery="true" enctype="multipart/form-data" method="post" class="form-horizontal">
+        @{ await Html.RenderPartialAsync("_CreateOrUpdate"); }
+        <div class="form-actions text-align-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="demo-btns">
+                        <li class="add">
+                            <button asp-route-continueAdd="false" type="submit" class="btn btn-labeled bg-color-blue txt-color-white"> 
+                                <span class="btn-label"><i class="fa fa-save"></i></span>@Localizer["Salvar"]  
+                            </button>
+                        </li>
+                        <li class="addContinue">
+                            <button asp-route-continueAdd="true" type="submit" class="btn btn-labeled btn-default">
+                                <span class="btn-label"><i class="fa fa-refresh"></i></span>@Localizer["Salvar e Editar"]
+                            </button>
+                        </li>
+                        <li>
+                            <a asp-action="List" asp-controller="Company" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>@Localizer["Voltar"] </a>
+                        </li>
+                        <li>
+                            <a asp-action="Details" asp-route-id="@Model.CompanyId" asp-controller="Company" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-folder-close"></i></span>@Localizer["Detalhar"] </a>
+                        </li>
+                        <li>
+                            <button asp-route-addTrash="true"  type="submit" class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>@Localizer["Lixeira"]
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }*@
+    <script src="~/jsView/userSetting.js"></script>
+
+}

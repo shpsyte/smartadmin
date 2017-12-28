@@ -1,0 +1,106 @@
+﻿@using SmartAdmin.Models.ManageViewModels
+@model ManageLoginsViewModel
+@using Microsoft.AspNetCore.Http.Authentication
+
+
+<div id="content">
+    <div class="well well-light">
+        @if (!string.IsNullOrEmpty(ViewData["StatusMessage"].ToString()))
+        {
+            <div class="alert alert-success fade in">
+                <button class="close" data-dismiss="alert">
+                    ×
+                </button>
+                <i class="fa-fw fa fa-warning"></i>
+                <strong>@Localizer["Warning!"] </strong> @ViewData["StatusMessage"]
+            </div>
+        }
+
+        <h4 class="txt-color-teal">@Localizer["Gerenciar logins externos"]</h4>
+        <p class="note">@Localizer["Gerencia sua conta com perfis sociais, torne sua vida mais fácil."]</p>
+        <hr />
+        <div class="form-horizontal">
+            @if (Model.CurrentLogins.Count > 0)
+            {
+                <p class="note">@Localizer["Perfis já vinculados a sua conta."]</p>
+                <div class="form-group">
+
+                    @for (var index = 0; index < Model.CurrentLogins.Count; index++)
+                    {
+                        <div class="col-sm-12 col-md-3">
+                            <form asp-controller="Manage" asp-action="RemoveLogin" method="post" class="form-horizontal">
+                                <div>
+                                    <input asp-for="@Model.CurrentLogins[index].LoginProvider" name="LoginProvider" type="hidden" />
+                                    <input asp-for="@Model.CurrentLogins[index].ProviderKey" name="ProviderKey" type="hidden" />
+
+
+                                 
+                                    <div class="alert alert-success fade in">
+                                        <i class="fa-fw fa fa-check"></i>
+                                        <strong>@Model.CurrentLogins[index].LoginProvider</strong> 
+                                        <br />
+                                        <button type="submit" class="btn btn-danger btn-link" name="provider" value="Remove" title="Log in using your @Model.CurrentLogins[index].LoginProvider account">
+                                            Remover
+                                        </button>        
+                                    </div>
+
+
+                                    
+
+                                </div>
+                            </form>
+                        </div>
+
+                    }
+                </div>
+                <div class="form-actions text-align-left">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a asp-action="index" asp-controller="Manage" class="btn btn-info">@Localizer["Voltar"]</a>
+                        </div>
+                    </div>
+                </div>
+                
+
+            }
+            @if (Model.OtherLogins.Count > 0)
+            {
+                <h4>@Localizer["Vincule seu login com os services abaixo."]</h4>
+                        <form asp-controller="Manage" asp-action="LinkLogin" method="post" class="form-horizontal">
+                            <div id="socialLoginList">
+                                <p>
+                                    @foreach (var provider in Model.OtherLogins)
+                                    {
+                                        <button type="submit" class="btn btn-labeled btn-default" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                            <span class="btn-label"><i class="fa fa-@provider.AuthenticationScheme.ToLower()"></i></span>
+                                            @provider.AuthenticationScheme
+                                        </button>
+
+                                    }
+                                </p>
+                            </div>
+                            <div class="form-actions text-align-left">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a asp-action="index" asp-controller="Manage" class="btn btn-info">@Localizer["Voltar"]</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+            }
+
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+

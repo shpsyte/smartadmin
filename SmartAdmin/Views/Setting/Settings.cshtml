@@ -1,0 +1,89 @@
+﻿@model Smart.Core.Domain.Identity.UserSetting
+@{ ViewData["Title"] = "Home Page";   }
+<div id="content">
+    <div class="well well-light">
+        <h4 class="txt-color-teal">@Localizer["Meu Perfil"]</h4>
+        <p class="note">@Localizer["Última Alteração:"] @Model.ModifiedDate</p>
+        <hr />
+        <form asp-action="Settings" enctype="multipart/form-data" role="form" method="post" class="form-horizontal">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(a => a.BusinessEntityId)
+            @Html.HiddenFor(a => a.CreateDate)
+            @Html.HiddenFor(a => a.UserSettingId)
+            @Html.HiddenFor(a => a.rowguid)
+            @Html.HiddenFor(a => a.AvatarImage)
+
+            <fieldset>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <img id="imageID" name="imageID" src="@Url.Action("Avatar", "Setting")" alt="me" class="online" />
+                            <input type="file" name="AvatarImage" onchange="usersetting.readURL(this)" />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                        <div class="col-sm-12 col-md-4">
+                            <label asp-for="Title" class="control-label">@Localizer["Title"]</label>
+                            <input asp-for="Title" placeholder="@Localizer["Title"]" class="form-control">
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <label asp-for="MiddleName" class="control-label">@Localizer["Apelido"]</label>
+                            <input asp-for="MiddleName" placeholder="@Localizer[""]" class="form-control">
+                            <span asp-validation-for="MiddleName" class="text-danger"></span>
+                        </div>
+                </div>
+            </fieldset>
+
+
+            <fieldset>
+                <div class="form-group">
+                        <div class="col-sm-12 col-md-4">
+                            <label asp-for="FirstName" class="control-label">@Localizer["Primeiro Nome"]</label>
+                            <input asp-for="FirstName" placeholder="@Localizer["Primeiro Nome"]" class="form-control">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="col-sm-12 col-md-4">
+                            <label asp-for="LastName" class="control-label">@Localizer["Último Nome"]</label>
+                            <input asp-for="LastName" placeholder="@Localizer["Último Nome"]" class="form-control">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+
+                        </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>@Localizer["Conta"]</legend>
+                <a asp-controller="Manage" asp-action="Index" class="btn btn-info btn-lg">
+                    @Localizer["Minha Conta"]
+                </a>
+            </fieldset>
+            <div class="form-actions text-align-left">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa fa-save"></i>
+                            @Localizer["Atualizar"]
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }*@
+    <script src="~/jsView/userSetting.js"></script>
+
+}

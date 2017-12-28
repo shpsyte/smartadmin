@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Smart.Core.Domain.Tasks.Task>
+
+<h2> @Localizer["Lista de Tarefas"] <small><a asp-action="Add" asp-controller="Task"> @Localizer["Adicionar Nova Tarefa"]</a></small></h2>
+
+
+@if (Model.Count() == 0)
+{
+    <div class="well well-clean well-light">
+        <h1>@Localizer["Não existem tarefas"]</h1>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <strong>@Localizer["Cuidado!"]</strong> @Localizer["Manter tarefas atreladas a negócios, ajudam a conquistar novos clientes..."]
+        </div>
+    </div>
+}
+else
+{
+
+        <div class="widget-body no-padding smart-form">
+            <h5 class="todo-group-title"><i class="fa fa-exclamation"></i> <span class="txt-color-red">@Localizer["Tarefas de Hoje"]</span>  (<small class="num-of-tasks">@Model.Where(a => a.DueDate.Date <= DateTime.Now.Date).Count()</small>)</h5>
+            <ul id="sortable2" class="todo">
+                @foreach (var todo in Model.Where(a => a.DueDate.Date <= DateTime.Now.Date))
+                {
+                    <li>
+                        <span class="handle">
+
+                            <label class="checkbox">
+                                <input type="checkbox" data-id="@todo.TaskId" name="checkbox-inline">
+                                <i></i>
+                            </label>
+                        </span>
+                        <p>
+                            <strong>@todo.TaskId</strong> - @todo.Name <small> </small> [<a asp-action="Edit" asp-controller="Task" asp-route-id="@todo.TaskId" class="font-xs">Mais Detalhes</a>] <span class="date"> Até: @todo.DueDate, @todo.Name @(todo.Contact == null ? "" : "Com " + todo.Contact.FirstName) , @(todo.Company == null ? "" : "Empresa " + todo.Company.FirstName)     </span>
+                        </p>
+                    </li>
+
+                }
+            </ul>
+        </div>
+    
+    
+        <div class="widget-body no-padding smart-form">
+            <h5 class="todo-group-title"><i class="fa fa-exclamation"></i> <span class="txt-color-green">@Localizer["Tarefas a fazer"]</span> (<small class="num-of-tasks">@Model.Where(a => a.DueDate.Date > DateTime.Now.Date).Count()</small>)</h5>
+            <ul id="sortable2" class="todo">
+
+                @foreach (var todo in Model.Where(a => a.DueDate.Date > DateTime.Now.Date))
+                {
+                    <li>
+                        <span class="handle">
+
+                            <label class="checkbox">
+                                <input type="checkbox" data-id="@todo.TaskId" name="checkbox-inline">
+                                <i></i>
+                            </label>
+                        </span>
+                        <p>
+                            <strong>@todo.TaskId</strong> - @todo.Name <small> </small> [<a asp-action="Edit" asp-controller="Task" asp-route-id="@todo.TaskId" class="font-xs">Mais Detalhes</a>] <span class="date">(@todo.TaskGroup.Name) Até: @todo.DueDate, @todo.Name @(todo.Contact == null ? "" : "Com " + todo.Contact.FirstName) , @(todo.Company == null ? "" : "Empresa " + todo.Company.FirstName)     </span>
+                        </p>
+                    </li>
+
+                }
+            </ul>
+        </div>
+   
+}
+

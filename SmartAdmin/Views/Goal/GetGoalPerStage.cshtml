@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+
+
+@model IEnumerable<SmartAdmin.Models.PipelineViewModels.GoalPipeline>
+<div class="modal-header bg-color-greenLight txt-color-white">
+    
+    <h4 class="modal-title">
+        Metas para este estágio
+    </h4>
+</div>
+<div class="modal-body">
+    
+
+    <table class="table table-striped table-hover">
+        <tbody>
+            <tr>
+                <th> Nome</th>
+                <th> Meta </th>
+                <th> Realizado </th>
+                <th> Atingido </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="txt-color-@item.Color">
+                    <td> @item.Name </td>
+                    <td class="txt-color-green"> @item.Goal </td>
+                    <td> @item.Get </td>
+                    <td> <i class="fa fa-thumbs-@item.Ok"></i> @item.Representative </td>
+                </tr>
+
+            }
+
+
+        </tbody>
+    </table>
+
+
+</div>
+<div class="modal-footer">
+    <button type="reset" class="btn btn-default" data-dismiss="modal">
+        Ok
+    </button>
+</div>
+
+

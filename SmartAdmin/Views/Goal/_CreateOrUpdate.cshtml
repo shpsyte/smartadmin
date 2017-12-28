@@ -1,0 +1,61 @@
+﻿@model Smart.Core.Domain.Goals.Goal
+   @{ Layout = null; }
+    @Html.HiddenFor(a => a.Id)
+    @Html.HiddenFor(a => a.CreateDate)
+    @Html.HiddenFor(a => a.ModifiedDate)
+    @Html.HiddenFor(a => a.Deleted)
+    @Html.HiddenFor(a => a.BusinessEntityId)
+    @Html.HiddenFor(a => a.UserSettingId)
+    @Html.HiddenFor(a => a.Rowguid)
+<fieldset>
+        <div class="form-group">
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" placeholder="@Localizer["Name"]" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12 col-md-3">
+                <label asp-for="PipelineId"></label>
+                  <select asp-for="PipelineId" class ="form-control" asp-items="ViewBag.PipelineId"><option></option></select>
+                  <span asp-validation-for="PipelineId" class="text-danger"></span>
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <label asp-for="StageId"></label>
+                  <select asp-for="StageId" class ="form-control" asp-items="ViewBag.StageId"><option></option></select>
+                  <span asp-validation-for="StageId" class="text-danger"></span>
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <label asp-for="Measure"></label>
+                <select asp-for="Measure" class="form-control" asp-items="Html.GetEnumSelectList<Smart.Core.Fake.TypeEnum>()"></select>
+                <span asp-validation-for="Measure" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="Period">Período</label>
+                <select asp-for="Period" class="form-control"  asp-items="Html.GetEnumSelectList<Smart.Core.Fake.TimeEnum>()"></select>
+                <span asp-validation-for="Period" class="text-danger"></span>
+            </div>
+        
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="Value"></label>
+                <input asp-for="Value" placeholder="@Localizer["Value"]" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+
+
+        </div>
+       
+        <div class="form-group">
+            <div class="col-sm-12 col-md-6">
+                <div class="checkbox">
+                <label>
+                    <input asp-for="Active" type="checkbox" class="checkbox style-0"  />
+                    <span><label asp-for="Active"></label></span>
+                </label>
+                </div>
+            </div>
+        </div>
+</fieldset>

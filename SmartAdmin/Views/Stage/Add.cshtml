@@ -1,0 +1,9 @@
+﻿
+<div id="content well">
+    <form asp-action="Add" method="post" class="smart-form">
+            @{ await Html.RenderPartialAsync("_CreateOrUpdate"); }   
+        <footer class="text-align-left">
+            @{ await Html.RenderPartialAsync("_Buttons", new object[] { "BtnAdd", "BtnAddPlus", "BtnGoBack" }); }
+        </footer>
+    </form>
+</div>

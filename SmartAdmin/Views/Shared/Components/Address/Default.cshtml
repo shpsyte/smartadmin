@@ -1,0 +1,93 @@
+﻿@model SmartAdmin.Models.AddressViewModel.AddressViewModel
+
+<form asp-action="Add" asp-controller="Address" asp-route-companyId="@Model.companyId" asp-route-contactId="@Model.contactId" method="post" asp-antiforgery="true">
+    <input name="CompanyId" id="CompanyId" class="form-control" type="hidden" value="@Model.companyId" />
+    <input asp-for="Address.CityId" type="hidden" />
+
+    <input name="returnUrl" id="returnUrl" type="hidden" value="@Model.returnUrl" />
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="PostalCode"> @Localizer["Cep"]</label>
+                    <input asp-for="Address.PostalCode" placeholder="Cep..." class="form-control" type="text" />
+                    <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="AddressLine1"> @Localizer["Endereço"]</label>
+                    <input asp-for="Address.AddressLine1" placeholder="Endereço..." class="form-control" type="text" />
+                    <span asp-validation-for="Address.AddressLine1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="AddressNumber"> @Localizer["Número"]</label>
+                    <input asp-for="Address.AddressNumber" placeholder="Número..." class="form-control" type="text" />
+                    <span asp-validation-for="Address.AddressNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="AddressLine2"> @Localizer["Complemento"]</label>
+                    <input asp-for="Address.AddressLine2" placeholder="Complemento..." class="form-control" type="text" />
+                    <span asp-validation-for="Address.AddressLine2" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="AddressLine3"> @Localizer["Bairro"]</label>
+                    <input asp-for="Address.AddressLine3" placeholder="Bairro..." class="form-control" type="text" />
+                    <span asp-validation-for="Address.AddressLine3" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+
+                    <label for="CityIdF"> @Localizer["Cidade"]</label>
+
+                    <div class="row">
+                        @*<label for="CityId"> @Localizer["Cidade"]</label>*@
+                        <div class="col-md-4">
+                            <select id="Address_StateProvinceId" class="form-control" asp-items="ViewBag.StateProvinceId"></select>
+                        </div>
+                        <div class="col-md-8">
+                            <input name="CityIdF" required id="CityIdF" onfocus="address.CompleteAdress(this)" placeholder="Cidade..." class="form-control" type="text" />
+                            <span asp-validation-for="Address.CityId" class="text-danger"></span>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="CityIdF" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div id="result"></div>
+                </div>
+            </div>
+            @*<div class="col-md-6">
+                <div class="form-group">
+                    <label for="SpatialLocation"> @Localizer["Lat.Long"]</label>
+                    <input asp-for="Address.SpatialLocation" placeholder="Lat.Long..." class="form-control" type="text" />
+                </div>
+            </div>*@
+        </div>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">
+            Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">
+            @Localizer["Salvar"]
+        </button>
+    </div>
+</form>
+

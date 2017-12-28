@@ -1,0 +1,75 @@
+﻿@model Smart.Core.Domain.Flow.Stage
+<div id="content">
+    <div class="well well-light">
+        <h4 class="txt-color-teal">@Localizer["Configuração do Pipeline"] :  @ViewData["pipeline"]</h4>
+        <p class="note">@Localizer["Estágios Localizados:"] <small class="text-danger">(@( (ViewData["stages"] as IEnumerable<Smart.Core.Domain.Flow.Stage>).Count()))</small> </p>
+        <hr />
+        <div class="row">
+            @foreach (var item in (ViewData["stages"] as IEnumerable<Smart.Core.Domain.Flow.Stage>).OrderBy(p => p.OrderStage))
+            {
+                <div class="no-padding col-md-2">
+                    <div class="stages-sortable">
+                        <p class="text text-align-center txt-color-blue"> <a asp-controller="Stage" asp-action="Edit" asp-route-id="@item.StageId"> @item.Name </a> </p>
+
+
+
+                        <form asp-action="RemoveStage" method="post" class="" asp-route-id="@item.StageId">
+                            @Html.AntiForgeryToken()
+                            <p class="text text-align-center txt-color-blue"><button type="submit" class="btn btn-danger btn-sm">Remover</button>       </p>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row padding-top-15">
+            <div class="col-md-12">
+                <form class="form-horizontal" method="post" asp-action="AddStage">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(a => a.BusinessEntityId)
+                    @Html.HiddenFor(a => a.PipelineId)
+                    @Html.HiddenFor(a => a.CreateDate)
+                    @Html.HiddenFor(a => a.ModifiedDate)
+                    @Html.HiddenFor(a => a.rowguid)
+                    @Html.HiddenFor(a => a.Active)
+                    <fieldset>
+                        <legend>Adicionar Estágio</legend>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-md-12">
+                                <label asp-for="Name">@Localizer["Nome"]</label>
+                                <input asp-for="Name" placeholder="@Localizer["Nome"]" class="form-control">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-actions text-align-left">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="demo-btns">
+                                    <li class="add">
+                                        <button  type="submit" class="btn btn-labeled bg-color-blue txt-color-white">
+                                            <span class="btn-label"><i class="fa fa-save"></i></span>@Localizer["Salvar e Novo"]
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <a asp-action="List" asp-controller="Pipeline" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>@Localizer["Voltar"] </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $('#Name').focus();
+    </script>
+    
+}

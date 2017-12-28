@@ -1,0 +1,108 @@
+﻿@using SmartAdmin.Models.AccountViewModels
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName }).ToList();
+}
+
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    ViewBag.PageId = "extr-page";
+}
+
+
+<style>
+    #extr-page #header {
+        background: #2c3742 !important;
+    }
+</style>
+
+    
+@section topright{
+
+<ul class="header-dropdown-list">
+    <li>
+        <form id="selectLanguage" asp-controller="Home"
+              asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+              method="post" class="smart-form padding-10" role="form">
+
+            <select name="culture" class="form-control"
+                    onchange="this.form.submit();"
+                    asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+
+
+
+        </form>
+    </li>
+</ul>
+
+    
+    
+}
+
+
+    <div id="content" class="container">
+        <div class="row">
+            @{ await Html.RenderPartialAsync("_LoginText"); }
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                <div class="well no-padding">
+                        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="smart-form-register" class="smart-form client-form">
+                            <header>
+                                @Localizer["Informação Registro"]
+                              <input id="AvatarImage" name="AvatarImage" type="hidden" value="iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAElBMVEXR0dGqqqrCwsKysrK5ubnKysqGpJ8RAAAAtUlEQVQ4y72TMQ7CMAxFTaAH&#x2B;CnsKRI7QepOBvZWgvtfBaESSv1jKRKob32K/W238iOP40lKuATAC9NEvLiy6TBxoSdvwa&#x2B;2WVCrER&#x2B;USbMJSxNhNcLMeW3D2UwTzEkHWnXG3FsrtdVg760qdW22nXltSRSNyolmVIPyZ&#x2B;XJNOo6HGEQo9xeLOP/ZDZmH9t0VmqHiZ5WkNThWKBdKBfxxa1wUP3n34GycmD6vH4m5CbEIc/OyBPDUSvwZuB80QAAAABJRU5ErkJggg==" />
+
+
+                                
+                            </header>
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <fieldset>
+                                <section>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input asp-for="Name" class="form-control" placeholder="@Localizer["Nome"]" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-envelope"></i>
+                                        <input asp-for="Email" class="form-control" placeholder="@Localizer["Email"]" id="email" autocomplete="off" />
+                                        <b class="tooltip tooltip-bottom-right">@Localizer["Necessário para logar no sistema"]</b>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </label>
+                                </section>
+                               
+                                <section>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+
+                                        <input asp-for="Password" class="form-control" placeholder="@Localizer["Password"]" id="password" autocomplete="off" />
+                                        <b class="tooltip tooltip-bottom-right">@Localizer["Senha"]</b>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+                                        <input asp-for="ConfirmPassword" class="form-control" placeholder="@Localizer["Confirme sua senha"]" autocomplete="off" />
+                                        <b class="tooltip tooltip-bottom-right">@Localizer["Confirme sua senha"]</b>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                        
+                                    </label>
+                                </section>
+                            </fieldset>
+                            <footer>
+                                <button type="submit" class="btn btn-primary">
+                                    @Localizer["Registrar"]
+                                </button>
+                                <a asp-action="login" asp-controller="account" class="btn btn-success">@Localizer["Já possui conta, clique aqui para entrar"]  </a> 
+                            </footer>
+                        </form>
+                </div>
+                @{ await Html.RenderPartialAsync("_SocialMedia"); }
+            </div>
+        </div>
+    </div>
+

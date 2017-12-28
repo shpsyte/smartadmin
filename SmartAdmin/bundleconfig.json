@@ -1,0 +1,161 @@
+﻿// Configure bundling and minification for the project.
+   //{
+    //"outputFileName": "wwwroot/js/smartadmin.js",
+    //"inputFiles": [ "wwwroot/js/*.js" ],
+    // Optionally specify minification options
+    //"minify": {
+//  "enabled": true,
+      //"renameLocals": true
+    //},
+    // Optionally generate .map file
+    //"sourceMap": false
+  //},
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    "outputFileName": "wwwroot/css/smartadmin.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [ "wwwroot/css/*.min.css" ]
+
+  },
+  {
+    "outputFileName": "wwwroot/js/jquery.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery-2.1.1.min.js"
+    ]
+  },
+
+  {
+    "outputFileName": "wwwroot/js/jquery.ui.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery-ui-1.10.3.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/jsView/pipeline.min.js",
+    "inputFiles": [
+      "wwwroot/jsView/pipeline.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/jsView/deal.min.js",
+    "inputFiles": [
+      "wwwroot/jsView/deal.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/jsView/task.min.js",
+    "inputFiles": [
+      "wwwroot/jsView/task.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/jsView/company.min.js",
+    "inputFiles": [
+      "wwwroot/jsView/company.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/jsView/Address.min.js",
+    "inputFiles": [
+      "wwwroot/jsView/Address.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/jsView/contact.min.js",
+    "inputFiles": [
+      "wwwroot/jsView/contact.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smartadmin.js",
+    "inputFiles": [
+      "wwwroot/js/app.config.js",
+
+      "wwwroot/lib/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
+      "wwwroot/lib/bootstrap/bootstrap.min.js",
+      "wwwroot/lib/notification/SmartNotification.min.js",
+      "wwwroot/lib/smartwidgets/jarvis.widget.min.js",
+      "wwwroot/lib/plugin/jquery-validate/jquery.validate.min.js",
+      "wwwroot/lib/plugin/masked-input/jquery.maskedinput.min.js",
+      "wwwroot/lib/plugin/select2/select2.min.js",
+      "wwwroot/lib/plugin/bootstrap-slider/bootstrap-slider.min.js",
+      "wwwroot/lib/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
+      "wwwroot/lib/plugin/msie-fix/jquery.mb.browser.min.js",
+      "wwwroot/lib/plugin/fastclick/fastclick.min.js",
+
+
+
+      "wwwroot/js/app.min.js",
+      "wwwroot/js/site.js",
+
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "wwwroot/lib/jquery-globalize/globalize.js"
+
+
+
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smart-chat.js",
+    "inputFiles": [
+      "wwwroot/lib/smart-chat-ui/smart.chat.ui.min.js",
+      "wwwroot/lib/smart-chat-ui/smart.chat.manager.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smart-datatables.js",
+    "inputFiles": [
+      "wwwroot/lib/plugin/datatables/jquery.dataTables.min.js",
+      "wwwroot/lib/plugin/datatables/dataTables.colVis.min.js",
+      "wwwroot/lib/plugin/datatables/dataTables.tableTools.min.js",
+      "wwwroot/lib/plugin/datatables/dataTables.bootstrap.min.js",
+      "wwwroot/lib/plugin/datatable-responsive/datatables.responsive.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smart-jq-grid.js",
+    "inputFiles": [
+      "wwwroot/lib/plugin/jqgrid/jquery.jqGrid.min.js",
+      "wwwroot/lib/plugin/jqgrid/grid.locale-en.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smart-charts.js",
+    "inputFiles": [
+      "wwwroot/lib/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js",
+      "wwwroot/lib/plugin/sparkline/jquery.sparkline.min.js",
+      "wwwroot/lib/plugin/morris/morris.min.js",
+      "wwwroot/lib/plugin/morris/raphael.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.cust.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.resize.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.time.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.fillbetween.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.orderBar.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.pie.min.js",
+      "wwwroot/lib/plugin/flot/jquery.flot.tooltip.min.js",
+      "wwwroot/lib/plugin/dygraphs/dygraph-combined.min.js",
+      "wwwroot/lib/plugin/chartjs/chart.min.js",
+      "wwwroot/lib/plugin/highChartCore/highcharts-custom.min.js",
+      "wwwroot/lib/plugin/highchartTable/jquery.highchartTable.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smart-vector.js",
+    "inputFiles": [
+      "wwwroot/lib/plugin/vectormap/jquery-jvectormap-1.2.2.min.js",
+      "wwwroot/lib/plugin/vectormap/jquery-jvectormap-world-mill-en.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smart-calendar.js",
+    "inputFiles": [
+      "wwwroot/lib/plugin/moment/moment.min.js",
+      "wwwroot/lib/plugin/fullcalendar/jquery.fullcalendar.min.js"
+    ]
+  }
+
+
+
+]

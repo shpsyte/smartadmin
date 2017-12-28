@@ -1,0 +1,20 @@
+@model Smart.Core.Domain.Tasks.TaskGroup
+
+
+   @{ Layout = null; }
+    @Html.HiddenFor(a => a.TaskGroupId)
+    @Html.HiddenFor(a => a.CreateDate)
+    @Html.HiddenFor(a => a.ModifiedDate)
+    @Html.HiddenFor(a => a.Deleted)
+    @Html.HiddenFor(a => a.BusinessEntityId)
+   @Html.HiddenFor(a => a.Rowguid)
+<fieldset>
+        <div class="form-group">
+            <div class="col-sm-12 col-md-6">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" placeholder="@Localizer["Name"]" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        
+</fieldset>

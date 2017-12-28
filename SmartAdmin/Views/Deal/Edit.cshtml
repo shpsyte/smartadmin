@@ -1,0 +1,631 @@
+﻿@model SmartAdmin.Models.PipelineViewModels.UpdateDealViewModel
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<div id="content no-margim ">
+    <div class="well well-clean">
+        @*<div class="row">
+            <div class="col-md-12">
+            <div class="well well-light  well-sm">
+
+            </div>
+            </div>
+            </div>*@
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-light">
+                    <div class="row text-left">
+                        <div class="pull-left">
+                            @if (Model.Deal.Users.Any(a => a.UserSettingId == Model.CurrentUserId))
+                            {
+                                <form asp-action="Follow" asp-antiforgery="true" asp-route-follow="false" asp-route-id="@Model.Deal.DealId" method="post">
+                                    <button type="submit" class="btn txt-color-white bg-color-teal btn-sm"> <i class="fa fa-unlink"></i> @Localizer["Deixar de Seguir"]</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Follow" asp-antiforgery="true" asp-route-follow="true" asp-route-id="@Model.Deal.DealId" method="post">
+                                    <button type="submit" class="btn txt-color-white bg-color-teal btn-sm"> <i class="fa fa-link"></i> @Localizer["Seguir"]</button>
+                                </form>
+                            }
+                        </div>
+                        <div class="col-md-3 text-left">
+                            <h2 class="no-padding no-margin">
+                                <a href="#" class="editable" data-type="text"
+                                   data-pk="@Model.Deal.DealId"
+                                   data-name="Name"
+                                   data-placeholder="Name..."
+                                   data-original-title="Name">@Model.Deal.Name</a>
+                            </h2>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <small class="note">@Localizer["Valor"]</small>
+                            <h3 class="no-padding no-margin">
+                                <a href="l#" class="editable" data-type="text"
+                                   data-pk="@Model.Deal.DealId"
+                                   data-name="UnitPrice"
+                                   data-placeholder="Price..."
+                                   data-original-title="Enter price">@( Model.Deal.UnitPrice.HasValue ? Model.Deal.UnitPrice.Value.ToString("c") : "0" )</a>
+
+                            </h3>
+
+                        </div>
+                        <div class="col-md-3">
+                            @if (Model.Company != null)
+                            {
+                                <i class="fa fa-2x fa-institution"></i>
+                                <p> @Model.Company.FullName </p>
+                            }
+
+                            @if (Model.Contact != null)
+                            {
+                                <i class="fa fa-2x fa-user"></i>
+                                <p> @Model.Contact.FullName </p>
+                            }
+
+                            <br />
+                        </div>
+                        <div class="col-md-4">
+                            @if (Model.Deal.Lost)
+                            {
+                                <div class="pull-right">
+                                    <h1 class="txt-color-red">@Localizer["Perdido"] <i class="fa fa-2x fa-remove txt-color-red"></i></h1>
+
+                                </div>
+                            }
+                            @if (Model.Deal.Win)
+                            {
+                                <div class="pull-right">
+                                    <h1 class="txt-color-green">@Localizer["Ganho"] <i class="fa fa-2x fa-check txt-color-green"></i></h1>
+
+                                </div>
+                            }
+                            <ul class="demo-btns">
+                                @if (Model.Deal.Lost || Model.Deal.Win)
+                                {
+                                    <li>
+                                        <form asp-action="MarkDeal" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-lost="false" asp-route-win="false" method="post">
+                                            <button type="submit" class="btn btn-labeled bg-color-greenLight txt-color-white"> <span class="btn-label"><i class="glyphicon glyphicon-thumbs-up"></i></span> @Localizer["Reabrir"]</button>
+                                        </form>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <form asp-action="MarkDeal" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-win="true" method="post">
+                                            <button type="submit" class="btn btn-labeled btn-success"> <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span> @Localizer["Ganho"]</button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form asp-action="MarkDeal" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-lost="true" method="post">
+                                            <button type="submit" class="btn btn-labeled bg-color-redLight txt-color-white"> <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span> @Localizer["Perdido"]</button>
+                                        </form>
+                                    </li>
+
+                                    <li>
+                                        <form asp-action="MarkDeal" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-trash="true" method="post">
+                                            <button type="submit" class="btn btn-labeled btn-warning"> <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span> @Localizer["Trash"]</button>
+                                        </form>
+                                    </li>
+                                    <li>
+
+                                    </li>
+
+                                }
+
+
+
+                            </ul>
+                            <i class="fa fa-2x fa-flag-checkered"></i>
+                            <a href="#" id="deadline" class="editable" data-type="date" data-viewformat="dd/mm/yyyy"
+                               data-pk="@Model.Deal.DealId"
+                               data-name="DeadlineDate"
+                               data-placement="bootom"
+                               data-placeholder="New Date"
+                               data-original-title="Enter Date">@( Model.Deal.DeadlineDate.HasValue ? Model.Deal.DeadlineDate.Value.ToString("d") : "" )</a>
+                            <br />
+                            <small class="note">@Localizer["Data previsão"]</small>
+                        </div>
+                    </div>
+                    <hr />
+                    
+                    
+                    <div class="row col-md-12 text-align-center">
+                        @foreach (var item in Model.AllStagesOfDeal)
+                        {
+                            <div class="col-md-2 bordered @(item.OrderStage <= Model.Deal.Stage.OrderStage ? "bg-color-purple" : "")">
+                                @if (item.Users.Any(a => a.UserSettingId == Model.CurrentUserId))
+                                {
+                                    <form asp-action="FollowStage" asp-antiforgery="true" asp-route-follow="false" asp-route-dealid="@Model.Deal.DealId" asp-route-id="@item.StageId" method="post">
+                                        <button type="submit" class="btn btn-link btn-sm font-xs @(item.OrderStage <= Model.Deal.Stage.OrderStage ? "txt-color-white" : "txt-color-black")"> <i class="fa fa-link"></i> @item.Name </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="FollowStage" asp-antiforgery="true" asp-route-follow="true" asp-route-dealid="@Model.Deal.DealId" asp-route-id="@item.StageId" method="post">
+                                        <button type="submit" class="btn btn-link btn-sm font-xs @(item.OrderStage <= Model.Deal.Stage.OrderStage ? "txt-color-white" : "txt-color-black")"> @item.Name </button>
+                                    </form>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div><p class="note"> @Localizer["Etapas para o fechamento deste negócio"]</p></div>
+                    <div>
+                        <a asp-action="pipeline" asp-controller="Deal" asp-route-id="@Model.Deal.PipelineId" class="btn btn-sm btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-arrow-left"></i></span> @Localizer["Voltar"] </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="well well-light">
+
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Dados</div>
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>@Localizer["Email"]</p>
+                                                <a href="#" class="editable" data-type="email"
+                                                   data-pk="@Model.Deal.DealId"
+                                                   data-name="Email"
+                                                   data-original-title="Email">@Model.Deal.Email</a>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>@Localizer["Fone"]</p>
+                                                <a href="#" class="editable" data-type="text"
+                                                   data-pk="@Model.Deal.DealId"
+                                                   data-name="Phone"
+                                                   data-original-title="Fone">@Model.Deal.Phone</a>
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Detalhes</div>
+                                    <div class="panel-body">
+                                        <p>@Localizer["O que você sabe mais sobre este negócio"]</p>
+                                        <a href="#" class="editable" data-type="textarea"
+                                           data-pk="@Model.Deal.DealId"
+                                           data-name="Comments"
+                                           data-original-title="Enter comments">@Model.Deal.Comments</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><i class="fa fa-institution"></i> Empresa </div>
+                                    <div class="panel-body">
+                                        @if (Model.Company != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <img id="imageID" class="img-responsive" name="imageID" src="@Url.Action("Avatar", "Company", new { id = @Model.Deal.CompanyId })" />
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a asp-action="Details" asp-controller="Company" asp-route-id="@Model.Company.CompanyId">@Model.Company.FullName</a>
+                                                    <form asp-action="AddOrRemovePerson" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-companyId="" asp-route-contactId="@Model.Deal.ContactId" method="post">
+                                                        <button type="submit" class="btn btn-labeled btn-warning"> <span class="btn-label"><i class="glyphicon glyphicon-thumbs-down"></i></span> @Localizer["Desvinlucar"]</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+                                            <hr />
+                                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                                <tbody>
+                                                    <tr>
+                                                        <td width="50px">Email</td>
+                                                        <td>
+                                                            <a href="#" class="editable" data-type="text"
+                                                               data-pk="@Model.Company.CompanyId"
+                                                               data-url='@Url.Action("PostInfoCompany", "Deal")'
+                                                               data-name="Email"
+                                                               data-original-title="Email">@Model.Company.Email</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="50px">Fone</td>
+                                                        <td>
+                                                            <a href="#" class="editable" data-type="text"
+                                                               data-pk="@Model.Company.CompanyId"
+                                                               data-url='@Url.Action("PostInfoCompany", "Deal")'
+                                                               data-name="Phone"
+                                                               data-original-title="Phone">@Model.Company.Phone</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <h2>@Localizer["Nenhuma Compania vinculada"]</h2>
+                                            <form asp-action="AddOrRemovePerson" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-contactId="@Model.Deal.ContactId" method="post">
+                                                <select name="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"><option></option> </select>
+                                                <button type="submit" class="btn btn-labeled btn-success"> <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span> @Localizer["Vincular"]</button>
+                                            </form>
+
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><i class="fa fa-user"></i> Contato </div>
+                                    <div class="panel-body">
+                                        @if (Model.Contact != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <img id="imageID" class="img-responsive" name="imageID" src="@Url.Action("Avatar", "Contact", new { id = @Model.Deal.ContactId })" />
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a asp-action="Details" asp-controller="Contact" asp-route-id="@Model.Contact.ContactId">@Model.Contact.FullName</a>
+                                                    <form asp-action="AddOrRemovePerson" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-companyId="@Model.Deal.CompanyId" asp-route-contactId="" method="post">
+                                                        <button type="submit" class="btn btn-labeled btn-warning"> <span class="btn-label"><i class="glyphicon glyphicon-thumbs-down"></i></span> @Localizer["Deasvinlucar"]</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <hr />
+
+                                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                                <tbody>
+                                                    <tr>
+                                                        <td width="50px">Email</td>
+                                                        <td>
+                                                            <a href="#" class="editable" data-type="email"
+                                                               data-pk="@Model.Contact.ContactId"
+                                                               data-url='@Url.Action("PostInfoContact", "Deal")'
+                                                               data-name="Email"
+                                                               data-original-title="Email">@Model.Contact.Email</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="50px">Fone</td>
+                                                        <td>
+                                                            <a href="#" class="editable" data-type="text"
+                                                               data-pk="@Model.Contact.ContactId"
+                                                               data-url='@Url.Action("PostInfoContact", "Deal")'
+                                                               data-name="Phone"
+                                                               data-original-title="Phone">@Model.Contact.Phone</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        }
+                                        else
+                                        {
+                                            <h2>@Localizer["Nenhum Contato vinculado"]</h2>
+                                            <form asp-action="AddOrRemovePerson" asp-antiforgery="true" asp-route-id="@Model.Deal.DealId" asp-route-companyId="@Model.Deal.CompanyId" method="post">
+                                                <select name="ContactId" class="form-control" asp-items="ViewBag.ContactId"><option></option></select>
+                                                <button type="submit" class="btn btn-labeled btn-success"> <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span> @Localizer["Vincular"]</button>
+                                            </form>
+
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-8">
+                        <div class="well well-light">
+                            <ul id="myTab1" class="nav nav-tabs bordered">
+                                <li class="active">
+                                    <a href="#Notes" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-lg fa-comment-o "></i> Notas</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Tasks" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-calendar"></i> Atividades </a>
+                                </li>
+
+                                <li class="">
+                                    <a href="#Email" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-envelope-o"></i> Email</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Files" data-toggle="tab" aria-expanded="false"><i class="fa fa-fw fa-lg fa-paperclip"></i> Arquivos</a>
+                                </li>
+
+                            </ul>
+
+                            <div id="myTabContent1" class="tab-content padding-10">
+                                <div class="tab-pane fade in active" id="Notes">
+                                    <form method="post" class="well well-clean" onsubmit="return false;">
+                                        <textarea id="Comments" asp-for="Note.Comments" rows="2" class="form-control" placeholder="What are you thinking?"></textarea>
+                                        <div class="margin-top-10">
+                                            <button data-id="@Model.Deal.DealId" onclick="deal.AddComment(this)" type="button" class="btn btn-sm btn-primary pull-right ">
+                                                @Localizer["Salvar"]
+                                            </button>
+                                        </div>
+                                        <p class="note">@Localizer["Postar um comentário neste negócio"]</p>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade in" id="Tasks">
+                                    <form asp-controller="Deal" asp-route-id="@Model.Deal.DealId" asp-action="PostTask" data-ajax-success="AddTask" data-ajax="true" data-ajax-method="POST" class="smart-form">
+                                        @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                                        <fieldset>
+                                            <section>
+                                                <div class="inline-group">
+                                                    @foreach (var item in Model.TaskGroups)
+                                                    {
+
+                                                        <label class="radio">
+                                                            <input onclick="deal.SetNameTask(this)" asp-for="Task.TaskGroupId" type="radio" value="@item.TaskGroupId" data-text="@item.Name" />
+                                                            <i></i>@item.Name
+                                                        </label>
+
+                                                    }
+                                                    <span asp-validation-for="Task.TaskGroupId" class="text-danger"></span>
+                                                </div>
+                                            </section>
+                                            <section>
+                                                <label class="input">
+                                                    <input type="text" asp-for="Task.Name" placeholder="Assunto" class="form-control">
+                                                    <span asp-validation-for="Task.Name" class="text-danger"></span>
+                                                </label>
+                                            </section>
+                                            <div class="row">
+                                                <section class="col col-4">
+                                                    <label class="input">
+                                                        <label class="label">@Localizer["Quando"]</label>
+                                                        <input type="datetime" id="DueDate" asp-for="Task.DueDate" placeholder="Quando?" class="datepicker">
+                                                        <span asp-validation-for="Task.DueDate" class="text-danger"></span>
+
+                                                    </label>
+                                                </section>
+                                                <section class="col col-4">
+                                                    <label class="input">
+                                                        <label class="label">@Localizer["Inicio"]</label>
+                                                        <input class="form-control" id="clockpicker" asp-for="Task.Time" type="text" placeholder="Select time" data-autoclose="true">
+                                                        @*<select asp-for="Task.Time" class="form-control" asp-items="ViewBag.Tempo"><option></option> </select>*@
+                                                        <span asp-validation-for="Task.Time" class="text-danger"></span>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-4">
+                                                    <label class="input">
+                                                        <label class="label">@Localizer["Duração"]</label>
+                                                        <select asp-for="Task.Duration" class="form-control" asp-items="ViewBag.Tempo"><option></option> </select>
+                                                    </label>
+                                                </section>
+
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="label">Comment</label>
+                                                    <label class="textarea textarea-expandable">
+                                                        <i class="icon-append fa fa-comment"></i>
+                                                        <textarea rows="4" class="form-control custom-scroll" asp-for="Task.Comments"></textarea>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label asp-for="Task.UserSettingId">Assigned to</label>
+                                                    <select asp-for="Task.UserSettingId" class="select2" asp-items="ViewBag.UserSettingId"></select>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-2">
+                                                    <label class="checkbox">
+                                                        <input name="checkbox" asp-for="Task.Done" type="checkbox">
+                                                        <i></i>Concluída
+                                                    </label>
+                                                </section>
+
+                                                <section class="col col-10">
+                                                    <label class="checkbox">
+                                                        <input name="checkbox" asp-for="Task.Required" type="checkbox">
+                                                        <i></i>@Localizer["Obrigatório para Deal alterar Etapa"]
+                                                    </label>
+                                                </section>
+
+
+
+
+
+                                            </div>
+                                        </fieldset>
+                                        <footer>
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="fa fa-calendar"></i>  @Localizer["Enviar"]
+                                            </button>
+                                        </footer>
+
+
+                                    </form>
+
+                                </div>
+                                <div class="tab-pane fade in" id="Email">
+                                    <form method="post" class="well well-clean" onsubmit="return false;">
+                                        <h1>Not yet implemented</h1>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade in" id="Files">
+                                    <form asp-action="AddDoc" asp-route-id="@Model.Deal.DealId" id="dropzone" enctype="multipart/form-data" role="form" name="file" method="post" class="dropzone well well-clean"></form>
+                                </div>
+                            </div>
+                        </div>
+                        <h1>TimeLine</h1>
+                        <div class="well well-sm well-light">
+                            <!-- Timeline Content -->
+                            <div class="smart-timeline">
+                                <ul id="timelinedeal" class="smart-timeline-list">
+                                    @foreach (var item in Model.History.OrderByDescending(a => a.EventDate))
+                                    {
+                                        <li>
+
+                                            @if (item.Event.Equals("CREATE"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-blueDark">
+                                                    <i class="fa fa-asterisk"></i>
+                                                </div>
+                                            }
+                                            @if (item.Event.Equals("NOTE"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-yellow">
+                                                    <i class="fa fa-file-text-o"></i>
+                                                </div>
+
+                                            }
+                                            @if (item.Event.Equals("TASK"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-green"><i class="fa fa-tasks"></i></div>
+
+                                            }
+                                            @if (item.Event.Equals("FILE"))
+                                            {
+                                                <div class="smart-timeline-icon bg-color-purple"><i class="fa fa-paperclip"></i></div>
+
+                                            }
+
+                                            <div class="smart-timeline-time">
+                                                <small>@item.EventDate</small>
+                                            </div>
+                                            <div class="smart-timeline-content">
+
+
+
+                                                @if (item.Event.Equals("CREATE"))
+                                                {
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Negócio Criado"]</strong></a>
+                                                    <p> @item.Name </p>
+                                                }
+
+                                                @if (item.Event.Equals("NOTE"))
+                                                {
+
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Nota Adicionada"]</strong></a>
+
+                                                    <blockquote>
+                                                        <p>@item.Comments</p>
+                                                    </blockquote>
+
+                                                }
+
+
+                                                @if (item.Event.Equals("TASK"))
+                                                {
+
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Tarefa Criada"] <i class="fa @(item.Done ? "fa-check txt-color-green" : "fa-remove txt-color-red") "></i></strong></a>
+                                                    <div>
+                                                        <p>@item.Name </p>
+                                                        <small> @item.DueDate </small>
+
+                                                        <p>@item.Comments</p>
+                                                    </div>
+
+
+                                                }
+
+
+                                                @if (item.Event.Equals("FILE"))
+                                                {
+                                                    <a href="javascript:void(0);"><strong>@Localizer["Documento Anexo"]</strong></a>
+                                                    <div>
+                                                        <a asp-action="Download" asp-controller="Deal" asp-route-id="@item.Pk">@item.Name</a>
+                                                        <p>@item.Comments</p>
+                                                    </div>
+                                                }
+
+                                                <p class="note">
+                                                    @item.UserName, @Html.ElapsedTime(item.EventDate)
+                                                </p>
+
+
+                                            </div>
+                                        </li>
+                                    }
+
+
+
+
+                                </ul>
+                            </div>
+                            <!-- END Timeline Content -->
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/plugin/x-editable/x-editable.min.js"></script>
+    <script src="~/lib/plugin/dropzone/dropzone.min.js"></script>
+    <script src="~/lib/plugin/clockpicker/clockpicker.min.js"></script>
+    <script src="~/jsView/deal.min.js"></script>
+    <script>deal.Makeditable('.editable')</script>
+    <script>
+        $('#clockpicker').clockpicker({
+            placement: 'top',
+            donetext: 'Done'
+        });
+
+
+
+        Dropzone.autoDiscover = false;
+        $('#dropzone').dropzone({
+            //url: "/file/post",
+            addRemoveLinks: true,
+            maxFilesize: 0.5,
+            dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+            dictResponseError: 'Error uploading file!',
+            success: function (file, response) {
+                deal.AddLI("Doc Adicionado");
+            }
+        });
+    </script>
+    <script>
+        function AddTask(data) {
+            deal.AddTask(data);
+        }
+
+    </script>
+
+}

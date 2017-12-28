@@ -1,0 +1,131 @@
+﻿@model Smart.Core.Domain.Tasks.Task
+
+
+@{ Layout = null; }
+@Html.HiddenFor(a => a.TaskId)
+@Html.HiddenFor(a => a.CreateDate)
+@Html.HiddenFor(a => a.ModifiedDate)
+@Html.HiddenFor(a => a.Deleted)
+@Html.HiddenFor(a => a.BusinessEntityId)
+
+@Html.HiddenFor(a => a.Rowguid)
+@Html.HiddenFor(a => a.Active)
+<fieldset>
+    
+
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-12">
+            <div class="smart-form">
+                <div class="inline-group">
+                    @foreach (var item in (ViewBag.TaskGroupId as IEnumerable<Smart.Core.Domain.Tasks.TaskGroup>))
+                    {
+                        <label class="radio">
+                            <input asp-for="TaskGroupId" type="radio" value="@item.TaskGroupId" data-text="@item.Name" />
+                            <i></i>@item.Name
+                        </label>
+
+                    }
+                    <span asp-validation-for="TaskGroupId" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" placeholder="@Localizer["Name"]" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+       
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="DueDate"></label>
+            <input type="datetime" asp-for="DueDate" placeholder="Quando?" class="form-control datepicker">
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="Time"></label>
+            @*<select asp-for="Time" class=" select2" asp-items="ViewBag.Tempo"><option></option> </select>*@
+            <input class="form-control" id="clockpicker" asp-for="Time" type="text" placeholder="Select time" data-autoclose="true">
+            <span asp-validation-for="Time" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="Duration" ></label>
+            <select asp-for="Duration" class="select2" asp-items="ViewBag.Tempo"><option></option> </select>
+            <span asp-validation-for="Duration" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-6">
+            <label asp-for="Comments"></label>
+                <textarea rows="4" asp-for="Comments" class="form-control" ></textarea>
+            <span asp-validation-for="Comments" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <label asp-for="UserSettingId">usuário</label>
+            <select asp-for="UserSettingId" class="select2" asp-items="ViewBag.UserSettingId"></select>
+            <span asp-validation-for="UserSettingId" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    
+
+    <div class="form-group">
+        
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="DealId" ></label>
+            <input asp-for="DealId" type="hidden" />
+            <input type="text" id="DealIds" onfocus="task.CompleteDeal(this)" class="form-control" placeholder="@ViewData["DealName"]" />
+            <span asp-validation-for="DealId" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="CompanyId" ></label>
+            <input type="hidden" asp-for="CompanyId" />
+            <input type="text" id="CompanyIds" onfocus="task.CompleteCompany(this)" placeholder="@ViewData["CompanyName"]"  class="form-control"  />
+            <span asp-validation-for="CompanyId" class="text-danger"></span>
+        </div>
+        
+        <div class="col-sm-12 col-md-3">
+            <label asp-for="ContactId" > </label>
+            <input type="hidden" asp-for="ContactId"  />
+            <input type="text" id="ContactIds" onfocus="task.CompleteContact(this)" placeholder="@ViewData["ContactName"]" class="form-control" value="@ViewData["ContactName"]" />
+            <span asp-validation-for="ContactId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group smart-form">
+        <div class="col-sm-12 col-md-12">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" class="checkbox style-0" asp-for="Required" />
+                    <span>@Localizer["Obrigatório para Deal alterar Etapa"]</span>
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+   
+
+    <div class="form-group smart-form">
+        <div class="col-sm-12 col-md-2">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" class="checkbox style-0" asp-for="Done" />
+                    <span>@Localizer["Feito"]</span>
+                </label>
+            </div>
+        </div>
+
+       
+    </div>
+</fieldset>

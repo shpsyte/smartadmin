@@ -1,0 +1,92 @@
+@model Smart.Core.Domain.Person.Contact
+
+
+@{ Layout = null; }
+@Html.HiddenFor(a => a.ContactId)
+@Html.HiddenFor(a => a.CreateDate)
+@Html.HiddenFor(a => a.ModifiedDate)
+@Html.HiddenFor(a => a.rowguid)
+@Html.HiddenFor(a => a.BusinessEntityId)
+@Html.HiddenFor(a => a.Deleted)
+
+
+<fieldset>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <img id="imageID" name="imageID" src="@Url.Action("Avatar", "Contact", new { id = Model.ContactId })"  />
+                <input type="file" name="avatarImage" onchange="usersetting.readURL(this)" />
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" placeholder="@Localizer["FirstName"]" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" placeholder="@Localizer["LastName"]" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-2">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" placeholder="@Localizer["Title"]" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="MiddleName"></label>
+            <input asp-for="MiddleName" placeholder="@Localizer["MiddleName"]" class="form-control" />
+            <span asp-validation-for="MiddleName" class="text-danger"></span>
+        </div>
+
+    </div>
+
+
+
+    <div class="form-group">
+        
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" placeholder="@Localizer["Email"]" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+  
+        <div class="col-sm-12 col-md-4">
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" placeholder="@Localizer["Phone"]" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+   
+    <div class="form-group">
+        <div class="col-sm-12 col-md-6">
+            <label asp-for="CompanyId"></label>
+            <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId">
+                <option> </option>
+            </select>
+            <span asp-validation-for="CompanyId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12 col-md-6">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="Active" type="checkbox" class="checkbox style-0" />
+                    <span><label asp-for="Active"></label></span>
+                </label>
+            </div>
+        </div>
+    </div>
+   
+</fieldset>

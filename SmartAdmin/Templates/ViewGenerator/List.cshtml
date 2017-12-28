@@ -1,0 +1,204 @@
+﻿@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+@@model @GetEnumerableTypeExpression(Model.ViewDataTypeName)
+
+
+
+@{
+
+
+@:<div id="content">
+    @:<div class="well well-light">
+        @:<h4 class="txt-color-teal">@@Localizer["@Model.ModelMetadata.EntitySetName"]</h4>
+        @:<p class="note">@@Localizer["Registros Localizados:"] <small class="text-danger">(@@Model.Count())</small> </p>
+        @:<hr />
+        @:<div class="row">
+            @:<div class="col-md-12">
+                @:<form class="form-horizontal" method="get">
+                    @:<div class="input-group input-group-lg">
+                        @:<div class="input-group-btn">
+                            @:<a asp-action="Add" class="btn btn-success">@@Localizer["Adicionar Novo"]</a>
+                        @:</div>
+                        @:<input class="form-control input-lg" placeholder="Search..." id="search" name="search" type="text" value="@@ViewData["search"]">
+                        @:<div class="input-group-btn">
+                            @:<button type="submit" class="btn btn-default">
+                                @:<i class="fa fa-fw fa-search fa-lg"></i>
+                            @:</button>
+                        @:</div>
+
+                    @:</div>
+                @:</form>
+            @:</div>
+        @:</div>
+        @:<div class="row padding-top-15">
+            @:<div class="col-md-12">
+                @:<div class="table-responsive">
+                    @:<table id="resultTable" class="table table-striped table-bordered table-hover">
+                             @:<thead>
+                                @:<tr>
+                                IEnumerable<PropertyMetadata> properties = Model.ModelMetadata.Properties;
+                                foreach (var property in properties)
+                                {
+                                               if (
+                                                      (property.PropertyName == "BusinessEntityId") ||
+                                                      (property.PropertyName == "CreateDate") ||
+                                                      (property.PropertyName == "ModifiedDate") ||
+                                                      (property.PropertyName == "rowguid") ||
+                                                      (property.PropertyName == "UserId")  ||
+                                                      (property.PropertyName == "Deleted")
+                                                    )
+                                                {
+                                                    continue;
+                                                }
+           
+
+                                    if (property.Scaffold && property.IsPrimaryKey && !property.IsForeignKey)
+                                    {
+                                        <th data-class="expand"> @@Localizer["@GetValueExpression(property)"]</th>
+                                    }
+                                    if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey)
+                                    {
+                                        <th data-hide="phone"> @@Localizer["@GetValueExpression(property)"]</th>
+                                    }
+                                }
+                                foreach (var navigation in Model.ModelMetadata.Navigations)
+                                {
+                                        <th>
+                                            @@Html.DisplayNameFor(model => model.@GetValueExpression(navigation))
+                                        </th>
+                                }
+                                @:<th></th>
+                                @:</tr>
+                                
+                            @:</thead>
+                            @:<tbody>
+                                    @:@@foreach (var item in Model) {
+                                           @:<tr>
+                                            var pkName = GetPrimaryKeyName();
+                                            foreach (PropertyMetadata property in properties)
+                                            {
+                                                   if (
+                                                        (property.PropertyName == "BusinessEntityId") ||
+                                                        (property.PropertyName == "CreateDate") ||
+                                                        (property.PropertyName == "ModifiedDate") ||
+                                                        (property.PropertyName == "rowguid") ||
+                                                        (property.PropertyName == "UserId") || 
+                                                        (property.PropertyName == "Deleted")
+                                                    )
+                                                {
+                                                    continue;
+                                                }
+
+                                               if (property.Scaffold && property.IsPrimaryKey && !property.IsForeignKey)
+                                                {
+                                                @:<td>
+                                                      @: @@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
+                                                @:</td>
+                                                }
+                                                if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey)
+                                                {
+                                                @:<td>
+                                                
+                                                if (property.PropertyName == "Image")
+                                                {  
+                                                string pk  = GetPrimaryKeyName();
+                                                string src = "@Url.Action(\"Avatar\", \""+Model.ModelMetadata.EntitySetName+"\", new { id = item."+ pk +"})";
+                                                    @: <div class='project-members'> <img id="imageID" class="project-members" name="imageID" src="@src"/> </div> 
+
+                                                } else
+                                                {
+                                                   @: @@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
+                                                }
+
+
+                                                @:</td>
+                                                }
+                                            }
+                                            foreach (var navigation in Model.ModelMetadata.Navigations)
+                                            {
+                                                @:<td>
+                                                    @: @@Html.DisplayFor(modelItem => item.@GetValueExpression(navigation).@navigation.DisplayPropertyName)
+                                                @:</td>
+                                            }
+                                              @:<td>
+                                                @:<a asp-action="Edit" asp-route-id="@@item.@pkName" class="btn btn-labeled bg-color-blue txt-color-white"> <span class="btn-label"><i class="fa fa-edit"></i></span> @@Localizer["Editar"] </a>
+                                              @:</td>
+
+
+                                            @:</tr>
+                                    @:}
+                            @:</tbody>
+                       
+                    @:</table>
+                @:</div>
+            @:</div>
+        @:</div>
+      
+    @:</div>
+@:</div>
+
+    
+
+@:@@section Scripts {
+    @:<script>tableSetting.tableInit("resultTable", 50); </script>
+@:}
+
+
+    if(!Model.IsPartialView && !Model.IsLayoutPageSelected)
+    {
+        //ClearIndent();
+    }
+}
+@functions
+{
+    bool ExistsImageColumn()
+    {
+        IEnumerable<PropertyMetadata> internalproperties = Model.ModelMetadata.Properties;
+        foreach (var property in internalproperties)
+        {
+            if ((property.PropertyName == "Image"))
+            {
+                return true;
+                
+            }
+        }
+        return false;
+    }
+
+
+
+    bool ExistsDeletedColumn()
+    {
+        IEnumerable<PropertyMetadata> internalproperties = Model.ModelMetadata.Properties;
+        foreach (var property in internalproperties)
+        {
+            if ((property.PropertyName == "Deleted"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    string GetPrimaryKeyName()
+    {
+        return (Model.ModelMetadata.PrimaryKeys != null && Model.ModelMetadata.PrimaryKeys.Length == 1)
+        ? Model.ModelMetadata.PrimaryKeys[0].PropertyName
+        : null;
+    }
+
+    string GetValueExpression(PropertyMetadata property)
+    {
+        return property.PropertyName;
+    }
+
+    string GetValueExpression(NavigationMetadata navigation)
+    {
+        return navigation.AssociationPropertyName;
+    }
+
+    string GetEnumerableTypeExpression(string typeName)
+    {
+        return "IEnumerable<" + typeName + ">";
+    }
+}

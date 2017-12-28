@@ -1,0 +1,186 @@
+﻿@model IEnumerable<Smart.Core.Domain.Deals.Deal>
+@{
+    ViewBag.PageClass = "minified";
+}
+    
+
+@section ReportMenu{
+    @{ 
+        Html.RenderPartialIf("_Report", User.Identity.IsAuthenticated);
+    }
+}
+
+
+
+<div id="content">
+    <div class="well well-light">
+        <h4 class="txt-color-teal">@Localizer["Deals"]</h4>
+        <p class="note">@Localizer["Registros Localizados:"] <small class="text-danger">(@Model.Count() )</small> </p>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="panel-group smart-accordion-default" id="accordion-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseOne-1" class="@(Model.Count() > 0 ? "collapsed" : "")">
+                                <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> Filtro </a></h4>
+                        </div>
+                        <div id="collapseOne-1" class="panel-collapse collapse @(Model.Count() > 0 ? "" : "in")" aria-expanded="true" style="">
+                            <div class="panel-body">
+                               
+                                <form class="form-horizontal" method="get">
+                                    <fieldset>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12 col-md-4">
+                                                <label>Nome</label>
+                                                <input name="Name" placeholder="@Localizer["Name"]" class="form-control" />
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <label>Compania</label>
+                                                <input name="Company" placeholder="@Localizer["Compania"]" class="form-control" />
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <label>Contato</label>
+                                                <input name="Contact" placeholder="@Localizer["Contato"]" class="form-control" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12 col-md-4">
+                                                <label>Inseridos em </label>
+                                                <input name="StartDate" type="text" class="form-control datepicker" />
+                                                
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <label>Até</label>
+                                                <input name="EndDate"  type="text" class="form-control datepicker" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12 col-md-12">
+                                                <label>Status</label>
+                                                <section class="smart-form">
+                                                    <div class="inline-group">
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" value="Win" name="Status">
+                                                            <i></i>Ganhos
+                                                        </label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" value="Lost" name="Status">
+                                                            <i></i>Perdidos
+                                                        </label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" value="Deleted" name="Status">
+                                                            <i></i>Deletados
+                                                        </label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" value="Active" name="Status">
+                                                            <i></i>Ativos
+                                                        </label>
+                                                    </div>
+
+                                                </section>
+
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+
+                                    <button class="btn btn-default" type="reset">
+                                        Cancel
+                                    </button>
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-book"></i>
+                                        Gerar
+                                    </button>
+
+
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+            </div>
+        </div>
+        <div class="row padding-top-15">
+            <div class="col-md-12">
+                @if (Model.Count() > 0){
+                <div class="table-responsive">
+                    <table id="resultTable" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th data-class="expand"> @Localizer["Dealid"]</th>
+                                <th data-hide="phone"> @Localizer["Nome"]</th>
+                                <th data-hide="phone"> @Localizer["Compania"]</th>
+                                <th data-hide="phone"> @Localizer["Contato"]</th>
+                                <th data-hide="phone"> @Localizer["Data"]</th>
+                                <th data-hide="phone"> @Localizer["Etapa"]</th>
+                                <th data-hide="phone"> @Localizer["Ganho"]</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="@(item.Lost || item.Deleted ? "txt-inactive txt-color-red" : item.Win ? "txt-color-green" : "") ">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DealId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Company.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Contact.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreateDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Stage.Name)
+                                    </td>
+
+                                    <td>
+                                        <i class="fa @( item.Win ? "fa-thumbs-up" : item.Lost ? "fa-thumbs-down" : "" ) "></i>
+                                    </td>
+                                   
+                                    <td>
+                                        <a asp-action="Edit" asp-controller="Deal" asp-route-id="@item.DealId" class="btn btn-sm bg-color-blue txt-color-white"> 
+                                        @Localizer["Detalhes"] </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                }
+                else
+                {
+                    <div class="well well-lg">
+                        
+
+                    </div>
+
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    
+}

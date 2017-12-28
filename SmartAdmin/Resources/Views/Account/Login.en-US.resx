@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1. Crie um Pipeline" xml:space="preserve">
+    <value>1. Create a Pipeline</value>
+  </data>
+  <data name="2. Defina suas etapas" xml:space="preserve">
+    <value>2. Define your steps</value>
+  </data>
+  <data name="3. Pronto! é muito fácil..." xml:space="preserve">
+    <value>3. Done! Easy...</value>
+  </data>
+  <data name="Em qual etapa o novo representante está? o que falta fazer na nova loja ?" xml:space="preserve">
+    <value>What stage is the new sales men ? What is missing from the new store?</value>
+  </data>
+  <data name="Entrar" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Entre com seu E-mail" xml:space="preserve">
+    <value>Enter your Email</value>
+  </data>
+  <data name="Entre com sua senha" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="Entre em contato com nosso suporte." xml:space="preserve">
+    <value>Please contact our support.</value>
+  </data>
+  <data name="Esqueçeu sua senha ?" xml:space="preserve">
+    <value>Forgot your password ?</value>
+  </data>
+  <data name="Estas são perguntas respondidas através de" xml:space="preserve">
+    <value>These are questions answered through</value>
+  </data>
+  <data name="Este aplicativo está em versão beta, isso significa que estamos trabalhando em suas funções e que novas função estão sendo implementadas" xml:space="preserve">
+    <value>This application is in beta, it means that we are working on its functions and that new functions are being implemented</value>
+  </data>
+  <data name="Já posso usar ?" xml:space="preserve">
+    <value>Can I use it?</value>
+  </data>
+  <data name="Lembrar-me" xml:space="preserve">
+    <value>Remember-me</value>
+  </data>
+  <data name="Mas como controlar tudo isso ?" xml:space="preserve">
+    <value>But how to control all this?</value>
+  </data>
+  <data name="Mas sabemos que ofereceremos como serviço por um valor baixo e que você terá o controle da assinatura." xml:space="preserve">
+    <value>But we know that we will offer as a service for a low amount and that you will have control of the subscription.</value>
+  </data>
+  <data name="Nada será perdido, aproveite :)" xml:space="preserve">
+    <value>Nothing will be lost, enjoy :)</value>
+  </data>
+  <data name="Nosso aplicativo controla processos incontroláveis" xml:space="preserve">
+    <value>Our application controls uncontrollable processes</value>
+  </data>
+  <data name="O que é ?" xml:space="preserve">
+    <value>What is ?</value>
+  </data>
+  <data name="O Software esta em fase beta, significa que ainda não possuímos um modelo de cobrança." xml:space="preserve">
+    <value>The Software is in beta, it means that we do not yet have a billing template.</value>
+  </data>
+  <data name="Ou crie uma nova conta" xml:space="preserve">
+    <value>Or create a new account</value>
+  </data>
+  <data name="Pipeline." xml:space="preserve">
+    <value>Pipeline.</value>
+  </data>
+  <data name="Precisa de Ajuda para começar ?" xml:space="preserve">
+    <value>Need Help Getting Started?</value>
+  </data>
+  <data name="Quanto Custa?" xml:space="preserve">
+    <value>How much?</value>
+  </data>
+  <data name="Sim, mesmo estamos em fase beta, muitas funcionalidades estão prontas para que possam ser usadas." xml:space="preserve">
+    <value>Yes, even in beta, many features are ready for use.</value>
+  </data>
+  <data name="SmartAdmin" xml:space="preserve">
+    <value>SmartAdmin</value>
+  </data>
+  <data name="Tenha controle de seus processos via pipeline" xml:space="preserve">
+    <value>Control your processes with pipeline</value>
+  </data>
+  <data name="Todos nós possuímos algum processo dentro da empresa, Pode ser a &lt;b&gt;abertura de uma nova loja&lt;/b&gt;, a &lt;b&gt;contratação de um novo representante&lt;/b&gt;, ou a prospecção de &lt;b&gt;novos negócios.&lt;/b&gt;" xml:space="preserve">
+    <value>We have some process in company, It could be &lt;b&gt; opening a new store &lt;/b&gt;, &lt;b&gt; get a new sales men&lt;/b&gt;, or &lt;b&gt; new prospect  &lt;/b&gt;</value>
+  </data>
+  <data name="Tudo de forma clara e objetiva." xml:space="preserve">
+    <value>All in a clear and objective way.</value>
+  </data>
+  <data name="Use sua conta  para entrar" xml:space="preserve">
+    <value>Use your account to sign in</value>
+  </data>
+  <data name="É um aplicativo web, que ajuda a empresas a controlarems seus processos." xml:space="preserve">
+    <value>It is a web application that helps companies control their processes.</value>
+  </data>
+  <data name="A adoção do nosso aplicativo permite a colaboração entre pessoas que &lt;i&gt;trabalham em processos&lt;/i&gt;, além do feedback e a contribuição para &lt;i&gt;melhorias e finalização com êxito&lt;/i&gt; da demanda." xml:space="preserve">
+    <value>Take our application enable collaboration between people &lt;i&gt; work on processes &lt;/i&gt;, and give feedback and contribution to &lt;i&gt; improvements and successful completion &lt;/i&gt; of the demand.</value>
+  </data>
+  <data name="Comece a modelar processos com muito mais satisfação, agilidade e clareza." xml:space="preserve">
+    <value>Start modeling processes with much more satisfaction, agility and clarity.</value>
+  </data>
+  <data name="Como você divulga os seus processos?" xml:space="preserve">
+    <value>How do you deploy your processes?</value>
+  </data>
+  <data name="Confira alguns exemplos de processos:" xml:space="preserve">
+    <value>Here are some examples of processes:</value>
+  </data>
+  <data name="Crie Pipeline em poucos cliques." xml:space="preserve">
+    <value>Create pipelines with just a few clicks</value>
+  </data>
+  <data name="Defina suas etapas e regras." xml:space="preserve">
+    <value>Define your steps and rules.</value>
+  </data>
+  <data name="Dê vida aos seus Processos de Negócio. Automatize!" xml:space="preserve">
+    <value>Give Life to your Business processes. Automate!</value>
+  </data>
+  <data name="Faça seus funcionários se sentirem bem desde o primeiro dia de trabalho. Este fluxo inclui todas as providências anteriores a sua chegada e os passos básicos para sua integração na equipe" xml:space="preserve">
+    <value>Make your employees feel good from the first day of work. This flow includes all the arrangements prior to your arrival and the basic steps for your team integration</value>
+  </data>
+  <data name="Fluxo cadastro de novos produtos!" xml:space="preserve">
+    <value>Flow register new products!</value>
+  </data>
+  <data name="Fluxo de integração de empregados!" xml:space="preserve">
+    <value>Employee integration flow!</value>
+  </data>
+  <data name="Fluxo para conquistar novas vendas!" xml:space="preserve">
+    <value>Flow to win new sales!</value>
+  </data>
+  <data name="Fluxo para solicitação de viagens!" xml:space="preserve">
+    <value>Flow for travel request!</value>
+  </data>
+  <data name="Gerencie de qualquer lugar." xml:space="preserve">
+    <value>Manage from anywhere.</value>
+  </data>
+  <data name="Manter a equipe de vendas integrada com novos leads é fundamental para a conquista de novos clientes. Neste fluxo você pode definir todas as etapas necessárias para que a venda se concretize." xml:space="preserve">
+    <value>Keeping the sales team integrated with new leads is key to winning new customers. In this flow you can define all the steps necessary for the sale to take place.</value>
+  </data>
+  <data name="Nada melhor que poder contar com um processo padronizado e permitir que os colaboradores tenham tranqüilidade e confiança. Este processo começa com o pedido seguido de aprovação, agendamento de passagens e hotéis, e validação de despesas." xml:space="preserve">
+    <value>Nothing better than being able to count on a standardized process and allowing employees to have confidence and tranquility. This process begins with the application followed by approval, scheduling of tickets and hotels, and validation of expenses.</value>
+  </data>
+  <data name="Permita sua equipe identificar a etapa do lançamento de um novo produto, desde seu desenvolvimento a ao lançamento. Garanta que todas as regras sejam cumpridas de forma fácil e ágil." xml:space="preserve">
+    <value>Let your team identify the stage of launching a new product, from its development to launch. Ensure that all rules are met in an easy and agile way.</value>
+  </data>
+  <data name="Dê uma espiada! Crie sua conta" xml:space="preserve">
+    <value>Look! Create you account</value>
+  </data>
+  <data name="Este aplicativo está em versão beta, isso significa que estamos trabalhando em suas funções e que novas funcionalidades estão sendo implementadas" xml:space="preserve">
+    <value>This app is in beta, what we are working on its functions and what new features are being implemented</value>
+  </data>
+</root>

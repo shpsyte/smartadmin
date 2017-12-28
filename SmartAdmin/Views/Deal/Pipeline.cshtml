@@ -1,0 +1,353 @@
+﻿@model SmartAdmin.Models.PipelineViewModels.PipelineViewModel
+@{
+    ViewBag.PageClass = "minified";
+}
+<style>
+
+</style>
+
+<div id="content no-padding no-margim ">
+    <div class="well well-clean well-sm">
+
+        @if (ViewData["msg"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Warning!</strong> @ViewData["msg"]
+            </div>
+        }
+        <div class="row well-clean well-sm">
+            <div class="col-md-8">
+                <form class="form-horizontal" method="get">
+                    <div class="input-group input-group-lg">
+                        <div class="input-group-btn">
+                            <a href="javascript:void(0);" class="btn btn-success" data-toggle="modal" data-target="#myModal">@Localizer["Adicionar Novo"]</a>
+                        </div>
+                        <input class="form-control input-lg" placeholder="Search..." id="search" name="search" type="text" value="@ViewData["search"]">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-fw fa-search fa-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <form asp-action="Pipeline">
+
+                    <div class="input-group">
+                        <a class="input-lg input-group-addon"> Pipeline Atual:</a>
+                        <select name="id" id="id" onchange="this.form.submit()" class="input-lg form-control" asp-items="ViewBag.PipelineId"></select>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-11">
+                <div class="row">
+                    @foreach (var item in Model.Stages.OrderBy(p => p.OrderStage))
+                    {
+                        <div class="col-sm-6 col-lg-2">
+                            <div class="well well-clean no-margin stages-sortable">
+
+
+                                <a href="#" onclick="pipeline.CallAddWindows(this,'#myModal')" data-stage="@item.StageId">@item.Name</a>
+
+                                @if (Model.Goals.Count(a => a.StageId == item.StageId && a.Deleted == false && a.Active == true) > 0)
+                                {
+                                    <a href="@Url.Action("GetGoalPerStage","Goal", new { id = item.PipelineId, stageid = item.StageId})" data-toggle="modal" data-target="#modalGoal" class="usr pull-right"><i class="fa fa-send txt-color-green"></i></a>
+                                    @*<a onclick="pipeline.CallWindows(this,'#ModalKey')" data-id="@deals.DealId" data-move-forward="no" data-pipeline="@deals.PipelineId" data-stage="@deals.StageId" class="btn btn-xs btn-default"><i class="fa fa-windows txt-color-grayDark"></i></a>*@
+
+
+
+
+                                    @*string tableini = "<table class='table'> <tbody>";
+                                         string tablerow = "";
+                                         string tablefim = "</tbody> </table>";
+
+
+                                            @foreach (var meta in item.Goal.Where(a => a.StageId == item.StageId && a.Deleted == false && a.Active == true))
+                                            {
+                                                tablerow += "<tr> <td>" + Math.Round(meta.Value,2) + " " + meta.Name + " </td> <td> <i class='fa fa-fw fa-thumbs-down'></i> </td> </tr>";
+                                            }
+
+
+
+                                        <a href="#" data-stage="@item.StageId" class="usr pull-right"
+                                           rel="popover"
+                                           data-placement="top"
+                                           data-original-title="<i class='fa fa-fw fa-send'></i> Metas para esta etapa"
+                                           data-html="true"
+                                           data-content="<div style='min-width:270px'>@tableini+@tablerow+@tablefim</div>"
+                                           > <i class="fa fa-send txt-color-green"></i> </a>*@
+                                }
+
+                            </div>
+                            <p class="note">
+                                <span id="Qty-@item.StageId"> @( Model.Deals.Count(a => a.PipelineId == item.PipelineId && a.StageId == item.StageId)) </span> @Localizer["Deals"]
+                                <span id="Amout-@item.StageId">@( Model.Deals.Where(a => a.PipelineId == item.PipelineId && a.StageId == item.StageId).Select(p => p.UnitPrice).DefaultIfEmpty(0).Sum().Value.ToString("c") ) </span>
+                            </p>
+                            <div class="dd flow" id="@item.StageId">
+                                @if (Model.Deals.Count(p => p.StageId == item.StageId) == 0)
+                                {
+                                    <div class="dd-empty"></div>
+                                }
+                                else
+                                {
+                                    <ol class="dd-list">
+                                        @foreach (var deals in Model.Deals.Where(p => p.StageId == item.StageId).OrderBy(p => p.Tasks.Count(a => a.Done == false && a.Deleted == false)).ThenByDescending(a => a.ModifiedDate))
+                                        {
+                                            <li class="dd-item" data-id="@deals.DealId">
+                                                <div id="deal_@deals.DealId" class="dd-handle bg-color-white ">
+                                                    <span class="pull-left"><a href="@Url.Action("Edit","Deal", new { id = deals.DealId })" rel="popover-hover" data-placement="top" data-original-title="@deals.Name" data-content="@deals.Email (@deals.Phone) "> @deals.Name </a></span>
+                                                    <span class="pull-right"> <i class="fa fa-@(deals.Tasks.Count(a => a.Done == false && a.Deleted == false) > 0 ? "tasks txt-color-green" : "warning txt-color-redLight")"></i> </span>
+                                                    <p class="note"> <br /> </p>
+                                                    <p class="note">@( deals.UnitPrice.HasValue ? deals.UnitPrice.Value.ToString("c") : 0.ToString() )</p>
+                                                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                                        <div class="btn-group" role="group" aria-label="First group">
+                                                            <a onclick="pipeline.Move(this)" data-id="@deals.DealId" data-move-forward="no" data-pipeline="@deals.PipelineId" data-stage="@deals.StageId" class="btn btn-xs btn-default"><i class="fa fa-fast-backward txt-color-orangeDark"></i></a>
+                                                            <a onclick="pipeline.CallWindows(this,'#ModalKey')" data-id="@deals.DealId" data-move-forward="no" data-pipeline="@deals.PipelineId" data-stage="@deals.StageId" class="btn btn-xs btn-default"><i class="fa fa-windows txt-color-grayDark"></i></a>
+                                                            <a onclick="pipeline.Move(this)" data-id="@deals.DealId" data-move-forward="yes" data-pipeline="@deals.PipelineId" data-stage="@deals.StageId" class="btn btn-xs btn-default"><i class="fa fa-fast-forward txt-color-greenDark"></i></a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ol>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form asp-action="AddDeal" method="post" asp-antiforgery="true">
+                <input name="ContactIds" id="ContactIds" class="form-control" type="hidden" />
+                <input name="CompanyIds" id="CompanyIds" class="form-control" type="hidden" />
+
+
+                <div class="modal-header bg-color-greenLight txt-color-white">
+                    <h4 class="modal-title">
+                        @Localizer["Adicionar Negócio"]
+                    </h4>
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input name="Contact" id="Contact" onfocus="pipeline.CompleteContact(this)" placeholder="Contato" class="form-control" type="text" />
+                                </div>
+                                <div id="resultContact"></div>
+                                <span id="resultContactText" class="note"></span>
+                            </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-institution"></i></span>
+                                <input name="Company" id="Company" onfocus="pipeline.CompleteCompany(this)" placeholder="Empresa" class="form-control" type="text" />
+                            </div>
+                            <div id="resultCompany"></div>
+                            <span id="resultCompanyText" class="note"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                                <input asp-for="Deal.Email" placeholder="Email..." class="form-control" type="email" />
+                            </div>
+                            <span class="note"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input asp-for="Deal.Phone" placeholder="Fone..." class="form-control" type="tel" />
+                            </div>
+                            <span class="note"></span>
+                        </div>
+                    </div>
+
+                  
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nome:</span>
+                                <input asp-for="Deal.Name" placeholder="Nome..." class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input asp-for="Deal.UnitPrice" placeholder="Valor..." class="form-control" type="text" />
+                                <span class="input-group-addon">$</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr />
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select name="PipelineId" class="form-control" asp-items="ViewBag.PipelineId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select name="StageId" id="StageIdAdd" class="form-control" asp-items="@( new SelectList(Model.Stages, "StageId", "Name"))"></select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-comments"></i></span>
+                                <input asp-for="Deal.Comments" placeholder="Obs..." class="form-control" type="text" />
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        
+
+                        @*<div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Deal.DeadlineDate"> @Localizer["Fechamento"]</label>
+                                <input type="datetime" class="form-control datepicker" asp-for="Deal.DeadlineDate" />
+                            </div>
+                        </div>*@
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        @Localizer["Salvar"]
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalGoal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalKey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="ChangeDeal" asp-antiforgery="true" method="post">
+                <input asp-for="Deal.DealId" type="hidden" />
+                <input asp-for="Deal.PipelineId" type="hidden" />
+                <input asp-for="Deal.StageId" type="hidden" />
+
+
+                <div class="modal-header well well-clean ">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        @Localizer["Mudar Etapa do Negócio"]
+                    </h4>
+                </div>
+
+                <div class="modal-body padding-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PipelineId"> @Localizer["Pipeline"]</label>
+                                <select name="PipelineId" class="form-control" asp-items="ViewBag.PipelineId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="StageId"> @Localizer["Etapa"]</label>
+                                <select name="StageId" id="StageId" class="form-control" asp-items="@( new SelectList(Model.Stages, "StageId", "Name"))"></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group smart-form">
+                                <label asp-for="Deal.Comments"> @Localizer["Nota"]</label>
+                                <label class="textarea textarea-expandable">
+                                    <textarea class="form-control custom-scroll" placeholder="Content" rows="3" asp-for="Deal.Comments"></textarea>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        @Localizer["Salvar"]
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/jsView/pipeline.min.js"></script>
+
+}

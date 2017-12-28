@@ -1,0 +1,30 @@
+﻿@model Smart.Core.Domain.Flow.Stage
+        <div class="well well-light">
+    <h4 class="txt-color-teal">@Localizer["Estágios"]</h4>
+    <p class="note">@Localizer["Estágios fazem parte de um Pipeline "]</p>
+    <form asp-action="Edit" method="post" class="form-horizontal">
+        @{ await Html.RenderPartialAsync("_CreateOrUpdate"); }
+        <div class="form-actions text-align-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="demo-btns">
+                        <li class="add">
+                            <button type="submit" class="btn btn-labeled bg-color-blue txt-color-white">
+                                <span class="btn-label"><i class="fa fa-save"></i></span>@Localizer["Salvar"]
+                            </button>
+                        </li>
+                        <li>
+                            <a asp-action="Configure" asp-controller="Pipeline" asp-route-id="@Model.PipelineId" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>@Localizer["Voltar"] </a>
+                        </li>
+
+                    </ul>
+
+               
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+

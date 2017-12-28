@@ -1,0 +1,40 @@
+﻿@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+@@model @Model.ViewDataTypeName
+@{
+    @:<div class="well well-light">
+        @:<h4 class="txt-color-teal">@@Localizer["@Model.ModelMetadata.EntitySetName"]</h4>
+        @:<p class="note">@@Localizer["Definição de @Model.ModelMetadata.EntitySetName"]</p>
+        @:<form asp-action="@Model.ViewName" method="post" asp-antiforgery="true" class="form-horizontal">
+           @: @@{ await Html.RenderPartialAsync("_CreateOrUpdate"); }
+            @:<div class="form-actions text-align-left">
+            @:<div class="row">
+                @:<div class="col-md-12">
+                    @:<ul class="demo-btns">
+                        @:<li class="add">
+                            @:<button asp-route-continueAdd="false" type="submit" class="btn btn-labeled bg-color-blue txt-color-white">
+                                @:<span class="btn-label"><i class="fa fa-save"></i></span>@@Localizer["Salvar"]
+                            @:</button>
+                        @:</li>
+                        @:<li class="addContinue">
+                            @:<button asp-route-continueAdd="true" type="submit" class="btn btn-labeled btn-default">
+                                @:<span class="btn-label"><i class="fa fa-refresh"></i></span>@@Localizer["Salvar e Novo"]
+                            @:</button>
+                        @:</li>
+                        @:<li>
+                            @:<a asp-action="List" asp-controller="@Model.ModelMetadata.EntitySetName" class="btn btn-labeled btn-default"> <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>@@Localizer["Voltar"] </a>
+                        @:</li>
+                        @:<li>
+                            @:<button asp-route-addTrash="true" type="submit" class="btn btn-labeled btn-danger">
+                                @:<span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>@@Localizer["Lixeira"]
+                            @:</button>
+                        @:</li>
+                    @:</ul>
+                @:</div>
+            @:</div>
+            @:</div>
+
+        @:</form>
+    @:</div>
+
+}

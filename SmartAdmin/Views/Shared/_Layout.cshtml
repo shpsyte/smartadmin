@@ -1,0 +1,199 @@
+﻿@*@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet*@
+@inject Microsoft.Extensions.Options.IOptions<Settings> Settings
+
+@{
+    Settings.Value.CurrentTheme = User.Identity.IsAuthenticated ? "smart-style-2" : "smart-style-0";
+    Settings.Value.EnableTiles = true;
+
+}
+
+<!DOCTYPE html>
+<html id="@ViewBag.PageId" class="@Settings.Value.CurrentTheme">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewData["Title"] SmartAdmin </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700" />
+
+
+    @*<environment names="Development">
+            <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin.min.css">
+        </environment>
+        <environment names="Staging,Production">
+            <!-- GOOGLE FONT -->
+            <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700" />
+        </environment>*@
+    @*@Html.Raw(JavaScriptSnippet.FullScript)*@
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link rel="apple-touch-icon" href="~/img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/img/splash/touch-icon-ipad-retina.png">
+
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="~/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="~/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="~/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+
+
+</head>
+
+
+<body class="@ViewBag.PageClass @Settings.Value.CurrentTheme">
+    <header id="header">
+        @{ await Html.RenderPartialAsync("_Header"); }
+        <section id="top-right">
+            @(IsSectionDefined("topright") ? RenderSection("topright", false) : Html.Partial("_TopRight"))
+        </section>
+    </header>
+
+    @*@{ Html.RenderPartialIf("_Aside", User.Identity.IsAuthenticated); }*@
+    
+    @if (IsSectionDefined("ReportMenu"))
+    {
+        RenderSection("ReportMenu", false);
+    }
+    else
+    {
+        Html.RenderPartialIf("_Aside", User.Identity.IsAuthenticated);
+    }
+
+    <div id="main" role="main">
+        @{ Html.RenderPartialIf("_Ribbon", User.Identity.IsAuthenticated); }
+
+        @RenderBody()
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        await Html.RenderPartialAsync("_Footer");
+        Html.RenderPartialIf("_Tiles", Settings.Value.EnableTiles);
+    }
+
+    @*@{ await Html.RenderPartialAsync("_Scripts"); }*@
+
+    <!-- IMPORTANT: jQuery -->
+
+
+    <environment names="Development">
+        <script src="~/js/jquery.min.js"></script>
+        <script src="~/js/jquery.ui.min.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.1.min.js"
+                asp-fallback-src="~/js/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous">
+        </script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"
+                asp-fallback-src="~/js/jquery.ui.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous">
+        </script>
+    </environment>
+
+
+    <!-- IMPORTANT: SmartAdmin Core -->
+    <script src="~/js/smartadmin.min.js"></script>
+    <script src="~/js/smart-datatables.js"></script>
+    <script src="~/jsView/dataTableView.js"></script>
+
+    <script src="~/lib/jquery-globalize/globalize.js"></script>
+    @*<script src="~/lib/jquery-globalize/number.js"></script>
+        <script src="~/lib/jquery-globalize/date.js"></script>
+        <script src="~/lib/jquery-globalize/jquery.validate.globalize.js"></script>*@
+
+
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+
+
+    @*@if (User.Identity.IsAuthenticated)
+    {
+        <script src="~/js/demo.min.js"></script>
+    }*@
+
+
+    <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
+    <script>
+        $(document).ready(function () {
+            pageSetUp();
+            drawBreadCrumb();
+            var culture = "pt-BR";
+
+            //Globalize.culture('pt-BR');
+        });
+
+        $.validator.methods.number = function (value, element) {
+            var val = Globalize.parseFloat(value);
+            return this.optional(element) ||
+                (val);
+        }
+
+        $.validator.methods.date = function (value, element) {
+            var val = Globalize.parseDate(value);
+            return this.optional(element) ||
+                (val);
+        }
+
+        $(function () {
+
+            Globalize('pt-BR');
+
+            jQuery.extend(jQuery.validator.methods, {
+                range: function (value, element, param) {
+                    //Use the Globalization plugin to parse the value
+                    var val = Globalize.parseFloat(value);
+                    return this.optional(element) || (
+                        val >= param[0] && val <= param[1]);
+                }
+            });
+
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+
+
+
+    @*<environment names="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>*@
+
+</body>
+</html>
+

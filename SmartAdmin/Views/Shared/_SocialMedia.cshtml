@@ -1,0 +1,34 @@
+@if (SignInManager.GetExternalAuthenticationSchemes().Count() > 0 )
+{ 
+<h5 class="text-center">@Localizer["- Ou entre usando -"]  </h5>
+}
+
+
+@*<ul class="list-inline text-center">
+    <li>
+        <a href="javascript:void(0);" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
+    </li>
+    <li>
+        <a href="javascript:void(0);" class="btn btn-info btn-circle"><i class="fa fa-twitter"></i></a>
+    </li>
+    <li>
+        <a href="javascript:void(0);" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>
+    </li>
+</ul>*@
+
+
+@{
+    var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+        <div>
+            <ul class="list-inline text-center">
+                @foreach (var provider in loginProviders)
+                {
+                    <li><button type="submit" class="btn btn-primary btn-circle" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-@provider.DisplayName.ToLower()"></i></button> </li>
+
+                }
+            </ul>
+        </div>
+    </form>
+
+}
