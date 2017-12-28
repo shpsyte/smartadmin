@@ -17,5 +17,5 @@ You are also encouraged to start a discussion by filing an issue.
 
 ## Learning More
 
-For more information, contact me, out the [JOSELUIZ.NET](joseluiz.net). It should answer any questions 
+For more information, contact me, out the joseluiz.net. It should answer any questions 
 you have not covered by the versions documentation.
