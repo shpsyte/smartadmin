@@ -1,0 +1,90 @@
+@model Smart.Core.Domain.Addresss.City
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+</head>
+<body>
+
+<form asp-action="Add">
+    <div class="form-horizontal">
+        <h4>City</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div> teste </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MiddleName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="SpecialCodeRegion" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SpecialCodeRegion" class="form-control" />
+                <span asp-validation-for="SpecialCodeRegion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="StateProvinceId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="StateProvinceId" class ="form-control" asp-items="ViewBag.StateProvinceId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreateDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ModifiedDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ModifiedDate" class="form-control" />
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Rowguid" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Rowguid" class="form-control" />
+                <span asp-validation-for="Rowguid" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="BusinessEntityId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="BusinessEntityId" class="form-control" />
+                <span asp-validation-for="BusinessEntityId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

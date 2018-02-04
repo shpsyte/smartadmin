@@ -78,9 +78,6 @@ namespace Smart.Data.Repository
 
                 _entity.Add(entity);
                 this._context.SaveChanges();
-           
-
-            
             
         }
 
@@ -124,8 +121,6 @@ namespace Smart.Data.Repository
             _context. Entry(entity).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
             return entity;
-
-
         }
 
         public async Task<int> DeleteAsync(T entity)

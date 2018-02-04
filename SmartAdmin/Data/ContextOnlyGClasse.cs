@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Smart.Core.Domain.Addresss;
+using Smart.Core.Domain.Goals;
 
 namespace SmartAdmin.Data
 {
@@ -17,5 +19,10 @@ namespace SmartAdmin.Data
         {
       
         }
+
+        public DbSet<Smart.Core.Domain.Addresss.City> City { get; set; }
+
+        public DbSet<Smart.Core.Domain.Goals.Goal> Goal { get; set; }
+        
     }
 }

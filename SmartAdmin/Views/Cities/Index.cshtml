@@ -1,0 +1,79 @@
+@model IEnumerable<Smart.Core.Domain.Addresss.City>
+
+
+
+<div id="content">
+    <div class="well well-light">
+        <h4 class="txt-color-teal">@Localizer["City"]</h4>
+        <p class="note">@Localizer["Registros Localizados:"] <small class="text-danger">(@Model.Count())</small> </p>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" method="get">
+                    <div class="input-group input-group-lg">
+                        <div class="input-group-btn">
+                            <a asp-action="Add" class="btn btn-success">@Localizer["Adicionar Novo"]</a>
+                        </div>
+                        <input class="form-control input-lg" placeholder="Search..." id="search" name="search" type="text" value="@ViewData["search"]">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-fw fa-search fa-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row padding-top-15">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="resultTable" class="table table-striped table-bordered table-hover">
+                             <thead>
+                                <tr>
+                                        <th data-class="expand"> @Localizer["CityId"]</th>
+                                        <th data-hide="phone"> @Localizer["Name"]</th>
+                                        <th data-hide="phone"> @Localizer["MiddleName"]</th>
+                                        <th data-hide="phone"> @Localizer["SpecialCodeRegion"]</th>
+                                        <th data-hide="phone"> @Localizer["Rowguid"]</th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.StateProvince)
+                                        </th>
+                                <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    @foreach (var item in Model) {
+                                           <tr>
+                                                <td>
+                                                       @Html.DisplayFor(modelItem => item.CityId)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MiddleName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SpecialCodeRegion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Rowguid)
+                                                </td>
+                                                <td>
+                                                     @Html.DisplayFor(modelItem => item.StateProvince.CountryRegionCode)
+                                                </td>
+                                              <td>
+                                                <a asp-action="Edit" asp-route-id="@item.CityId" class="btn btn-labeled bg-color-blue txt-color-white"> <span class="btn-label"><i class="fa fa-edit"></i></span> @Localizer["Editar"] </a>
+                                              </td>
+                                            </tr>
+                                    }
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>tableSetting.tableInit("resultTable", 50); </script>
+}
