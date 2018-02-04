@@ -16,6 +16,11 @@ You are also encouraged to start a discussion by filing an issue.
 
 
 ## Learning More
+smartadmin.com.br
+user: demo@demo.com
+pass: Demo@2017
+
+
 
 For more information, contact me, out the joseluiz.net. It should answer any questions 
 you have not covered by the versions documentation.
