@@ -5,6 +5,10 @@ This repository contains the principles and definition of the SmartAdmin.com.br
 SmartAdmin solves problem for manager DEAL, CUSTOMER with PIPELINE for companies
 this platform use .NET MVC CORE 1.1 and SQL SERVER 2014 Express
 
+
+![SA](https://i.imgur.com/nGP2Gdf.png)
+
+
 # Build With 
 * .Visual Studio 2017
 * .NET Core 1.1
